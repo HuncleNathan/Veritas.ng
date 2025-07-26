@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolPass ERP - Asset & Inventory</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <!-- Top Header Navigation -->
+    <header class="top-header">
+        <div class="logo">
+            <h2 class="logo-text">SchoolPass ERP</h2>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation">
+        <i class="bi bi-list"></i>
+         </button>
+        <nav class="topbar-nav">
+            <ul>
+                <li><a href="index.html" class="active"><i class="bi bi-house"></i> Overview</a></li>
+                <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
+                <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
+                <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
+                <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
+                <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
+                <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+
+            </ul>
+        </nav>
+        <div class="header-right">
+            <div class="header-icons">
+                 <a href="notifications.html" data-bs-toggle="tooltip" title="Notifications">
+                     <i class="bi bi-bell"></i></a>
+            </div>
+        </div>
+           <div class="user-nav">
+                <div class="dropdown">
+                <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">
+                        <img src="/Veritas/Images/ig.png" alt="User">
+                    </div>
+                    <span class="user-name">Welcome, Admin</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
+                </ul>
+            </div>
+            
+        </div>
+    </header>
+
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <h2 class="hero-title">Asset & Inventory Management</h2>
+                <p class="hero-description">Track and manage school assets and resources.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary"><i class="bi bi-plus"></i> Add New Item</button>
+                    <button class="btn btn-outline"><i class="bi bi-file-earmark-text"></i> Generate Inventory Report</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="card card-success">
+                <div class="card-header">
+                    <span class="card-title">Total Assets</span>
+                    <div class="card-icon"><i class="bi bi-box"></i></div>
+                </div>
+                <div class="card-body">
+                    <div class="card-value">1,450</div>
+                    <p class="card-description">Registered assets</p>
+                </div>
+            </div>
+            <div class="card card-accent">
+                <div class="card-header">
+                    <span class="card-title">Library Books</span>
+                    <div class="card-icon"><i class="bi bi-book"></i></div>
+                </div>
+                <div class="card-body">
+                    <div class="card-value">2,300</div>
+                    <p class="card-description">Available in catalog</p>
+                </div>
+            </div>
+            <div class="card card-warning">
+                <div class="card-header">
+                    <span class="card-title">Maintenance Requests</span>
+                    <div class="card-icon"><i class="bi bi-tools"></i></div>
+                </div>
+                <div class="card-body">
+                    <div class="card-value">5</div>
+                    <p class="card-description">Pending</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Hostel Beds</span>
+                    <div class="card-icon"><i class="bi bi-house"></i></div>
+                </div>
+                <div class="card-body">
+                    <div class="card-value">200</div>
+                    <p class="card-description">Occupied</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Inventory -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="bi bi-box-seam"></i> Inventory</h3>
+                    <p class="card-description">Track school assets and supplies</p>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-outline w-full"><i class="bi bi-eye"></i> View Inventory</button>
+                    <button class="btn btn-outline w-full"><i class="bi bi-plus"></i> Add New Item</button>
+                </div>
+            </div>
+
+            <!-- Library -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="bi bi-book"></i> Library</h3>
+                    <p class="card-description">Manage school library resources</p>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-outline w-full"><i class="bi bi-list"></i> Book Catalogue</button>
+                    <button class="btn btn-outline w-full"><i class="bi bi-arrow-left-right"></i> Issue/Return</button>
+                </div>
+            </div>
+
+            <!-- Hostel -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="bi bi-house"></i> Hostel</h3>
+                    <p class="card-description">Manage boarding facilities</p>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-outline w-full"><i class="bi bi-person"></i> Bed Allocation</button>
+                    <button class="btn btn-outline w-full"><i class="bi bi-file-text"></i> Visitor Logs</button>
+                </div>
+            </div>
+
+            <!-- Maintenance -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="bi bi-tools"></i> Maintenance</h3>
+                    <p class="card-description">Track asset maintenance</p>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-outline w-full"><i class="bi bi-plus"></i> Log Maintenance</button>
+                    <button class="btn btn-outline w-full"><i class="bi bi-eye"></i> View History</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="main.js"></script>
+</body>
+</html>
