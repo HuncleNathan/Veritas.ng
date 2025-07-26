@@ -1,76 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // =============================================
-    // Mobile Menu Toggle Functionality
-    // =============================================
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const topHeader = document.querySelector('.top-header');
-    const topbarNav = document.querySelector('.topbar-nav');
-    
-    if (mobileMenuBtn && topHeader && topbarNav) {
-        const menuIcon = mobileMenuBtn.querySelector('i');
-        
-        // Set initial ARIA attributes
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-        mobileMenuBtn.setAttribute('aria-controls', 'topbar-nav');
-        topbarNav.setAttribute('aria-label', 'Main navigation');
-        
-        // Menu toggle function
-        function toggleMenu() {
-            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
-            
-            // Toggle classes and attributes
-            topHeader.classList.toggle('menu-open');
-            topbarNav.classList.toggle('mobile-visible');
-            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
-            
-            // Toggle between hamburger and close icons
-            if (!isExpanded) {
-                menuIcon.classList.remove('bi-list');
-                menuIcon.classList.add('bi-x');
-                // Focus first menu item when opening
-                setTimeout(() => {
-                    const firstNavItem = topbarNav.querySelector('a');
-                    if (firstNavItem) firstNavItem.focus();
-                }, 100);
-            } else {
-                menuIcon.classList.remove('bi-x');
-                menuIcon.classList.add('bi-list');
-                // Return focus to menu button when closing
-                mobileMenuBtn.focus();
-            }
-        }
-        
-        // Menu button click handler
-        mobileMenuBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleMenu();
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (topHeader.classList.contains('menu-open') && !topHeader.contains(e.target)) {
-                toggleMenu();
-            }
-        });
-        
-        // Close menu when clicking on a link (for mobile)
-        const navLinks = document.querySelectorAll('.topbar-nav a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 1024) {
-                    toggleMenu();
-                }
-            });
-        });
-        
-        // Close menu when pressing Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && topHeader.classList.contains('menu-open')) {
-                toggleMenu();
-            }
-        });
-    }
-
+   
     // =============================================
     // Active Tab Highlighting - FIXED VERSION
     // =============================================
@@ -119,6 +48,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update on browser back/forward navigation
     window.addEventListener('popstate', setActiveTab);
+
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const topbarNav = document.querySelector('.topbar-nav');
+
+    if (mobileMenuBtn && topbarNav) {
+        mobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            topbarNav.classList.toggle('active');
+            mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('.topbar-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                topbarNav.classList.remove('active');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
 
     // =============================================
     // Bootstrap Dropdown Initialization

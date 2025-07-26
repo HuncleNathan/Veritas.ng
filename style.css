@@ -13,6 +13,9 @@ body {
 }
 
 /* Top Header Navigation */
+/* ======================
+   Header Styles
+   ====================== */
 .top-header {
     display: flex;
     justify-content: space-between;
@@ -21,7 +24,7 @@ body {
     color: #333;
     padding: 0 20px;
     height: 70px;
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     right: 0;
@@ -30,17 +33,153 @@ body {
     border-bottom: 1px solid #e0e0e0;
 }
 
-.top-header .logo {
-    display: flex;
-    align-items: center;
-}
-
-.top-header .logo-text {
+.logo-text {
     margin: 0;
     font-size: 20px;
     font-weight: 700;
     color: #007bff;
 }
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+    padding: 10px;
+    margin-left: 15px;
+}
+
+/* Navigation */
+.topbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.topbar-nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.topbar-nav li {
+    margin: 0 5px;
+}
+
+.topbar-nav a {
+    color: blue;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    font-size: 15px;
+}
+
+.topbar-nav a:hover {
+    background-color: #f8f9fa;
+    color: red;
+}
+
+.topbar-nav a.active {
+    background-color: blue;
+    color: white;
+    font-weight: 600;
+}
+
+.topbar-nav i {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+
+/* User Navigation */
+.user-nav {
+    margin-left: 15px;
+}
+
+.user-nav .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    background-color: #f0f2f5;
+    color: #333;
+    padding: 8px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #e0e0e0;
+    text-decoration: none;
+}
+
+.user-nav .dropdown-toggle:hover {
+    background-color: #e2e6ea;
+    color: #1a1a1a;
+}
+
+.user-nav .user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.user-nav .user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-nav .user-name {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #333;
+}
+
+.dropdown-item i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.dropdown-divider {
+    margin: 0.5rem 0;
+}
+
+
 
 /* Mobile Menu Button */
 .mobile-menu-btn {
@@ -98,34 +237,6 @@ body {
     font-size: 16px;
 }
 
-/* Header Right Section */
-.header-right {
-    display: flex;
-    align-items: center;
-}
-
-.header-icons {
-    display: flex;
-    margin-right: 20px;
-}
-
-.header-icons a {
-    color: blue;
-    padding: 10px;
-    margin: 0 5px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    transition: all 0.2s ease-in-out;
-}
-
-.header-icons a:hover {
-    background-color: #f8f9fa;
-    color: #007bff;
-}
 
 .user-profile {
     display: flex;
@@ -353,9 +464,9 @@ body {
 
 /* Main Content */
 .main-content {
-    margin-top: 70px;
+    margin-top: 0;
     padding: 30px;
-    background-color: #f5f7fa;
+    background-color: #eff1f1;
     min-height: calc(100vh - 70px);
 }
 
@@ -599,73 +710,63 @@ body {
 
 /* Responsive Styles */
 @media (max-width: 1024px) {
-    .top-header {
-        flex-wrap: wrap;
-        padding: 0 15px;
-        height: auto;
-        min-height: 70px;
-    }
-    
+
     .mobile-menu-btn {
         display: block;
         order: 1;
     }
     
     .topbar-nav {
-        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
         width: 100%;
-        order: 3;
-        background: white;
+        background-color: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
         box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-out;
+        transform: translateY(-150%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
     }
     
-    .topbar-nav.mobile-visible {
-        display: block;
-        max-height: 500px;
-        padding: 10px 0;
+    .topbar-nav.active {
+        transform: translateY(0);
     }
     
     .topbar-nav ul {
         flex-direction: column;
+        width: 100%;
     }
     
     .topbar-nav li {
-        margin: 0;
+        margin: 0.5rem 0;
+        width: 100%;
     }
     
     .topbar-nav a {
-        padding: 15px 20px;
+        padding: 0.75rem 0;
         border-radius: 0;
+        border-bottom: 1px solid #eee;
     }
     
-    /* Backdrop effect */
-    .top-header::after {
-        content: '';
-        position: fixed;
-        top: 70px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.5);
-        z-index: -1;
-        opacity: 0;
-        transition: opacity 0.3s;
-        pointer-events: none;
+   
+    /* Mobile dropdown menu styles */
+    .dropdown-menu {
+        position: static !important;
+        transform: none !important;
+        border: none;
+        box-shadow: none;
+        width: 100%;
     }
-    
-    .top-header.menu-open::after {
-        opacity: 1;
-        pointer-events: auto;
+
+    .dropdown-item {
+        padding-left: 2rem;
     }
-    
-    .header-right {
-        order: 2;
-        margin-left: auto;
-    }
-    
+}
     .content-grid {
         grid-template-columns: 1fr;
     }
@@ -768,5 +869,4 @@ body {
     margin-top: 1rem;
     display: flex;
     justify-content: center;
-}
 }
