@@ -1,14 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-   
+    
     // =============================================
     // Active Tab Highlighting - FIXED VERSION
     // =============================================
     function setActiveTab() {
-        // Get current page filename (handles cases where path might be empty)
         const pathParts = window.location.pathname.split('/');
         let currentPage = pathParts[pathParts.length - 1];
         
-        // Handle cases where URL might end with a slash
         if (!currentPage || currentPage === '') {
             currentPage = 'index.html';
         }
@@ -19,15 +17,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const linkHref = link.getAttribute('href');
             const linkPage = linkHref.split('/').pop();
             
-            // Reset all links
             link.classList.remove('active');
             
-            // Compare the filenames (case insensitive)
             if (linkPage.toLowerCase() === currentPage.toLowerCase()) {
                 link.classList.add('active');
             }
             
-            // Special case for index.html (matches both "" and "index.html")
             if ((currentPage === '' || currentPage === 'index.html') && 
                 (linkPage === 'index.html' || linkHref === './' || linkHref === '/')) {
                 link.classList.add('active');
@@ -35,37 +30,49 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initialize active tab on load
     setActiveTab();
     
-    // Update active tab when navigating
     document.querySelectorAll('.topbar-nav a').forEach(link => {
         link.addEventListener('click', function() {
-            // Small delay to allow potential page load
             setTimeout(setActiveTab, 50);
         });
     });
 
-    // Update on browser back/forward navigation
     window.addEventListener('popstate', setActiveTab);
 
 
     // Mobile Menu Toggle
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const topbarNav = document.querySelector('.topbar-nav');
+    const topbarNav = document.getElementById('mainNavigation'); // Use the ID here!
 
     if (mobileMenuBtn && topbarNav) {
         mobileMenuBtn.addEventListener('click', () => {
             const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
             topbarNav.classList.toggle('active');
             mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+            
+            // Toggle icon (from your previous example, if you want this)
+            const icon = mobileMenuBtn.querySelector('i');
+            if (topbarNav.classList.contains('active')) {
+                icon.classList.remove('bi-list');
+                icon.classList.add('bi-x-lg'); // Using bi-x-lg for an 'X' icon from Bootstrap Icons
+            } else {
+                icon.classList.remove('bi-x-lg');
+                icon.classList.add('bi-list');
+            }
         });
 
         // Close menu when a link is clicked
         document.querySelectorAll('.topbar-nav a').forEach(link => {
             link.addEventListener('click', () => {
-                topbarNav.classList.remove('active');
-                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                if (window.innerWidth <= 1024) { // Only close if it's a mobile view
+                    topbarNav.classList.remove('active');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    // Reset icon
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.remove('bi-x-lg');
+                    icon.classList.add('bi-list');
+                }
             });
         });
     }
