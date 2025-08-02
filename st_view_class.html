@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolPass ERP - Student Directory</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Dashboard Overrides */
+        .main-content {
+            padding: 2rem;
+            background-color: #f8fafc;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* Dashboard Header - Adjusted for the student directory page */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start; /* Changed to flex-start for alignment with specific back button on student directory */
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-top: 1rem; /* Added for consistency */
+            padding-left: 0; /* Adjusted from original to remove extra padding */
+            padding-right: 0; /* Adjusted from original to remove extra padding */
+        }
+        
+        .dashboard-header .header-content { /* Added to control H1 and P alignment */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+            margin-bottom: 0.25rem; /* Added spacing */
+        }
+        
+        .dashboard-header p {
+            font-size: 0.95rem; /* Adjusted from original */
+            color: #64748b;
+            margin: 0;
+        }
+
+        .dashboard-header .btn { /* To align the 'View Student Records Here' button */
+            align-self: flex-start;
+        }
+
+        /* Class Cards Grid (New from image) */
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+            gap: 1.5rem;
+            margin-bottom: 3rem; /* Space below class cards */
+        }
+
+        .class-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .class-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .class-card i {
+            font-size: 2.5rem; /* Icon size */
+            color: #49c5b6; /* Green color from other elements */
+            margin-bottom: 0.75rem;
+        }
+
+        .class-card h6 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin-bottom: 0.5rem;
+        }
+
+        .class-card p {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin: 0;
+            line-height: 1.4;
+        }
+        
+        /* Student Directory Section */
+        .student-directory-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: #0E4329;
+        }
+
+        .student-directory-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .student-directory-header i {
+            font-size: 1.75rem;
+            color: #49c5b6;
+        }
+
+        /* Search and Filter Bar */
+        .search-filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-filter-bar .form-control {
+            flex-grow: 1;
+            max-width: 400px; /* Limit search bar width */
+        }
+
+        .search-filter-bar .btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-color: #cbd5e1;
+            color: #334155;
+            background-color: white;
+        }
+        
+        .search-filter-bar .btn:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Student Profile Cards Grid */
+        .student-profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjust minmax for card width */
+            gap: 1.5rem;
+        }
+
+        .student-profile-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .student-profile-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .student-profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .student-avatar-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e0e7ff; /* Light blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #3730a3; /* Darker blue */
+            flex-shrink: 0; /* Prevent shrinking */
+            margin-right: 1rem;
+        }
+
+        .student-info-main {
+            flex-grow: 1;
+        }
+
+        .student-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin-bottom: 0.25rem;
+        }
+
+        .student-id {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .student-details-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .student-details-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+
+        .student-details-list li strong {
+            font-weight: 500;
+            color: #64748b;
+            flex-basis: 30%; /* Align labels */
+        }
+
+        .student-details-list li span {
+            flex-basis: 65%; /* Align values */
+            text-align: right;
+        }
+
+        .student-details-list .tag {
+            color: #334155;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .student-details-list .status-badge {
+            padding: 0.35rem 0.65rem; /* Adjusted for better look */
+            border-radius: 0.375rem;
+            font-size: 0.85rem; /* Slightly larger */
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .student-details-list .status-paid {
+            color: #0ee3a7; /* Green dark */
+        }
+
+        .student-details-list .status-pending {
+            color: #f57423; /* Yellow dark */
+        }
+
+        .student-profile-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1.25rem;
+        }
+
+        .student-profile-actions .btn {
+            flex: 1; /* Make buttons take equal width */
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.65rem 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .student-profile-actions .btn-primary {
+            background-color: #49c5b6;
+            border-color: #49c5b6;
+            color: white;
+        }
+
+        .student-profile-actions .btn-primary:hover {
+            background-color: #0E4329;
+            border-color: #3aa89a;
+        }
+
+        .student-profile-actions .btn-outline-primary {
+            border-color: #cbd5e1;
+            color: #334155;
+            background-color: white;
+        }
+
+        .student-profile-actions .btn-outline-primary:hover {
+            background-color: #f0f4f8;
+            border-color: #a0aec0;
+        }
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.25rem;
+            }
+            
+            .card-header, .card-body {
+                padding: 1rem;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+
+            .dashboard-header .header-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .dashboard-header .btn {
+                margin-top: 1rem;
+                align-self: flex-start;
+                width: auto;
+            }
+
+            .search-filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-filter-bar .form-control {
+                max-width: 100%;
+            }
+
+            .student-profile-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="top-header">
+        <div class="logo">
+            <h2 class="logo-text">SchoolPass ERP</h2>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
+            
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html" class="active"><i class="bi bi-house"></i> Overview</a></li>
+                <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
+                <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
+                <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
+                <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
+                <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
+                <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+            </ul>
+        </nav>
+        
+        <div class="user-nav">
+            <div class="dropdown">
+                <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">
+                        <img src="/Veritas/Images/ig.png" alt="User">
+                    </div>
+                    <span class="user-name">Welcome, Admin</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                    <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell mr-2"></i> Notifications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div class="header-content"> 
+                <h1><i class="bi bi-people"></i> Student Management</h1>
+                <p>Manage student records and information</p>
+            </div>
+                <button class="btn btn-outline-success me-3" onclick="history.back();">
+                    <i class="bi bi-arrow-left"></i> Back
+                </button>
+            </div>
+
+        <div class="class-grid">
+            <div class="class-card">
+                <i class="bi bi-mortarboard"></i>
+                <h6>JSS 1</h6>
+                <p>125 students</p>
+                <p>8 teachers</p>
+            </div>
+            <div class="class-card">
+                <i class="bi bi-mortarboard"></i>
+                <h6>JSS 2</h6>
+                <p>118 students</p>
+                <p>8 teachers</p>
+            </div>
+            <div class="class-card">
+                <i class="bi bi-mortarboard"></i>
+                <h6>JSS 3</h6>
+                <p>112 students</p>
+                <p>8 teachers</p>
+            </div>
+            <div class="class-card">
+                <i class="bi bi-mortarboard"></i>
+                <h6>SS 1</h6>
+                <p>98 students</p>
+                <p>10 teachers</p>
+            </div>
+            <div class="class-card">
+                <i class="bi bi-mortarboard"></i>
+                <h6>SS 2</h6>
+                <p>89 students</p>
+                <p>10 teachers</p>
+            </div>
+            <div class="class-card">
+                <i class="bi bi-mortarboard"></i>
+                <h6>SS 3</h6>
+                <p>76 students</p>
+                <p>10 teachers</p>
+            </div>
+        </div>
+
+        <div class="student-directory-header">
+            <i class="bi bi-person-lines-fill"></i>
+            <h2>Student Directory</h2>
+        </div>
+        <p class="text-muted mb-4">Search and manage all student records</p> <div class="search-filter-bar">
+            <input type="text" class="form-control" placeholder="Search by name, admission number, or class...">
+            <button class="btn btn-outline-secondary">
+                <i class="bi bi-funnel"></i> Filter
+            </button>
+        </div>
+
+        <div class="student-profile-grid">
+            <div class="student-profile-card">
+                <div class="student-profile-header">
+                    <div class="d-flex align-items-center">
+                        <div class="student-avatar-circle">AT</div>
+                        <div class="student-info-main">
+                            <h6 class="student-name">Adebayo Taiwo</h6>
+                            <p class="student-id">2024/001</p>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-decoration-none text-muted" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="#">View Details</a></li>
+                            <li><a class="dropdown-item" href="#">Edit Record</a></li>
+                            <li><a class="dropdown-item text-danger" href="#">Delete Record</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="student-details-list">
+                    <li><strong>Class:</strong> <span class="tag">JSS 1A</span></li>
+                    <li><strong>Age:</strong> <span>12 years</span></li>
+                    <li><strong>Origin:</strong> <span><i class="bi bi-geo-alt-fill me-1"></i> Lagos</span></li>
+                    <li><strong>Fee Status:</strong> <span class="status-badge status-paid">Paid</span></li>
+                </ul>
+                <div class="student-profile-actions">
+                    <button class="btn btn-primary">View Profile</button>
+                    <button class="btn btn-outline-primary">Edit</button>
+                </div>
+            </div>
+
+            <div class="student-profile-card">
+                <div class="student-profile-header">
+                    <div class="d-flex align-items-center">
+                        <div class="student-avatar-circle" style="background-color: #ffe0e7; color: #a3304d;">CO</div> <div class="student-info-main">
+                            <h6 class="student-name">Chioma Okeke</h6>
+                            <p class="student-id">2024/002</p>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-decoration-none text-muted" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+                            <li><a class="dropdown-item" href="#">View Details</a></li>
+                            <li><a class="dropdown-item" href="#">Edit Record</a></li>
+                            <li><a class="dropdown-item text-danger" href="#">Delete Record</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="student-details-list">
+                    <li><strong>Class:</strong> <span class="tag">SS2B</span></li>
+                    <li><strong>Age:</strong> <span>16 years</span></li>
+                    <li><strong>Origin:</strong> <span><i class="bi bi-geo-alt-fill me-1"></i> Anambra</span></li>
+                    <li><strong>Fee Status:</strong> <span class="status-badge status-pending">Pending</span></li>
+                </ul>
+                <div class="student-profile-actions">
+                    <button class="btn btn-primary">View Profile</button>
+                    <button class="btn btn-outline-primary">Edit</button>
+                </div>
+            </div>
+
+            <div class="student-profile-card">
+                <div class="student-profile-header">
+                    <div class="d-flex align-items-center">
+                        <div class="student-avatar-circle" style="background-color: #d1fae5; color: #065f46;">IM</div> <div class="student-info-main">
+                            <h6 class="student-name">Ibrahim Musa</h6>
+                            <p class="student-id">2023/045</p>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link text-decoration-none text-muted" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton3">
+                            <li><a class="dropdown-item" href="#">View Details</a></li>
+                            <li><a class="dropdown-item" href="#">Edit Record</a></li>
+                            <li><a class="dropdown-item text-danger" href="#">Delete Record</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <ul class="student-details-list">
+                    <li><strong>Class:</strong> <span class="tag">SS1C</span></li>
+                    <li><strong>Age:</strong> <span>15 years</span></li>
+                    <li><strong>Origin:</strong> <span><i class="bi bi-geo-alt-fill me-1"></i> Kano</span></li>
+                    <li><strong>Fee Status:</strong> <span class="status-badge status-paid">Paid</span></li>
+                </ul>
+                <div class="student-profile-actions">
+                    <button class="btn btn-primary">View Profile</button>
+                    <button class="btn btn-outline-primary">Edit</button>
+                </div>
+            </div>
+            
+            </div>
+    </main>
+    <br> <br>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
+        </div>
+    </footer>
+    
+    <script src="main.js"></script>
+</body>
+</html>
