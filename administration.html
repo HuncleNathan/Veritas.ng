@@ -60,7 +60,8 @@
                 <h2 class="hero-title">Administration Management</h2>
                 <p class="hero-description">Streamline student records, attendance, and academic schedules.</p>
                 <div class="hero-actions">
-                    <button class="btn btn-primary"><i class="bi bi-plus"></i> New Admission</button>
+                    <button class="btn btn-primary" onclick="window.open('st_admission.html', '_blank');">
+ <i class="bi bi-plus"></i> New Admission</button>
                     <button class="btn btn-outline"><i class="bi bi-file-earmark-text"></i> Generate Report</button>
                 </div>
             </div>
@@ -121,8 +122,8 @@
                     <p class="card-description">Manage student profiles and records</p>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-eye"></i> View Students</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-person-plus"></i> New Admission</button>
+                    <button class="btn btn-outline w-full" onclick="window.open('st_admission.html', '_blank');"><i class="bi bi-person-plus"></i> New Admission</button>
+                    <button class="btn btn-outline w-full" onclick="window.open('st_view_class.html', '_blank');"><i class="bi bi-eye"></i> View Students</button>
                 </div>
             </div>
 
@@ -133,19 +134,19 @@
                     <p class="card-description">Track student and staff attendance</p>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-calendar-check"></i> Daily Attendance</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-file-earmark-text"></i> Reports</button>
+                    <button class="btn btn-outline w-full" onclick="window.open('st_attendance.html', '_blank');"><i class="bi bi-calendar-check"></i> Daily Attendance</button>
+                    <button class="btn btn-outline w-full" ><i class="bi bi-file-earmark-text"></i> Reports</button>
                 </div>
             </div>
 
             <!-- Timetable -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-calendar"></i> Timetable</h3>
+                    <h3 class="card-title" ><i class="bi bi-calendar"></i> Timetable</h3>
                     <p class="card-description">Create and manage school schedules</p>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-eye"></i> View Timetable</button>
+                    <button class="btn btn-outline w-full" onclick="window.open('st_timetable.html', '_blank');"><i class="bi bi-eye"></i> View Timetable</button>
                     <button class="btn btn-outline w-full"><i class="bi bi-plus"></i> Create New</button>
                 </div>
             </div>
@@ -154,25 +155,14 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title"><i class="bi bi-file-text"></i> Examinations</h3>
-                    <p class="card-description">Manage exams and results</p>
+                    <p class="card-description">Manage Internal and external exams</p>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-plus"></i> Create Exam</button>
+                    <button class="btn btn-outline w-full" onclick="window.open('st_exam.html', '_blank');"><i class="bi bi-plus"></i> Create Exam</button>
                     <button class="btn btn-outline w-full"><i class="bi bi-file-earmark-text"></i> Result Sheets</button>
                 </div>
             </div>
 
-            <!-- WAEC/NECO -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-award"></i> WAEC/NECO</h3>
-                    <p class="card-description">External exam integration</p>
-                </div>
-                <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-list"></i> Candidate Lists</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-upload"></i> Upload Results</button>
-                </div>
-            </div>
         </div>
     </main>
     <br> <br>

@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolPass ERP - Timetable Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Dashboard Overrides */
+        .main-content {
+            padding: 2rem;
+            background-color: #f8fafc;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+        }
+        
+        /* Card Styles */
+        .dashboard-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 1.5rem;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .card-header h5 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header h5 i {
+            margin-right: 0.75rem;
+            color: #49c5b6;
+        }
+        
+        .card-header p {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin: 0.5rem 0 0;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Form Styles */
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .form-control, .form-select {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            font-size: 0.875rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            background-color: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #49c5b6;
+            box-shadow: 0 0 0 3px rgba(73, 197, 182, 0.15);
+            outline: none;
+        }
+        
+        /* Timetable Styles */
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .timetable th {
+            background-color: #f1f5f9;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .timetable td {
+            padding: 0.75rem 1rem;
+            font-size: 0.8125rem;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .timetable td:hover {
+            background-color: #f8fafc;
+        }
+        
+        .period-time {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        .subject-card {
+            background-color: #f8fafc;
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            border-left: 3px solid #49c5b6;
+        }
+        
+        .subject-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .subject-teacher {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.25rem;
+            }
+            
+            .card-header, .card-body {
+                padding: 1rem;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .timetable {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header Navigation -->
+    <header class="top-header">
+        <div class="logo">
+            <h2 class="logo-text">SchoolPass ERP</h2>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
+           
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html"><i class="bi bi-house"></i> Overview</a></li>
+                <li><a href="administration.html" class="active"><i class="bi bi-gear"></i> Administration</a></li>
+                <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
+                <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
+                <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
+                <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
+                <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+            </ul>
+        </nav>
+        
+        <div class="user-nav">
+            <div class="dropdown">
+                <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">
+                        <img src="/Veritas/Images/ig.png" alt="User">
+                    </div>
+                    <span class="user-name">Welcome, Admin</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                    <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell mr-2"></i> Notifications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div class="header-content">  
+                <h1><i class="bi bi-calendar"></i> Timetable Management</h1>
+                <p>Create and manage class schedules and timetables</p>
+            </div>
+            <button class="btn btn-success" onclick="window.location.href='st_timetable_create.html';">
+                <i class="bi bi-plus" onclick="window.open('st_timetable_create.html');"></i> Create New Timetable</button>
+        </div>
+
+        <!-- Timetable Filter Card -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-funnel"></i> Filter Timetable</h5>
+                <p>Select criteria to view timetable</p>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="timetableClass" class="form-label">Class</label>
+                            <select class="form-select" id="timetableClass">
+                                <option value="">All Classes</option>
+                                <option value="JSS 1A" selected>JSS 1A</option>
+                                <option value="JSS 1B">JSS 1B</option>
+                                <option value="JSS 2A">JSS 2A</option>
+                                <option value="JSS 2B">JSS 2B</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="timetableTerm" class="form-label">Term</label>
+                            <select class="form-select" id="timetableTerm">
+                                <option value="">All Terms</option>
+                                <option value="1" selected>First Term</option>
+                                <option value="2">Second Term</option>
+                                <option value="3">Third Term</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="timetableSession" class="form-label">Session</label>
+                            <select class="form-select" id="timetableSession">
+                                <option value="">All Sessions</option>
+                                <option value="morning" selected>Morning</option>
+                                <option value="afternoon">Afternoon</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Class Timetable Card -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-calendar-week"></i> Class Timetable - JSS 1A (First Term)</h5>
+                <p>Morning Session - 2023/2024 Academic Year</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="timetable">
+                        <thead>
+                            <tr>
+                                <th>Time/Day</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>8:00 - 8:40</div>
+                                    <div class="period-time">Period 1</div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Mathematics</div>
+                                        <div class="subject-teacher">Mr. Adebayo</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">English</div>
+                                        <div class="subject-teacher">Mrs. Johnson</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Basic Science</div>
+                                        <div class="subject-teacher">Mr. Okoro</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Mathematics</div>
+                                        <div class="subject-teacher">Mr. Adebayo</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Social Studies</div>
+                                        <div class="subject-teacher">Mrs. Bello</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>8:40 - 9:20</div>
+                                    <div class="period-time">Period 2</div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">English</div>
+                                        <div class="subject-teacher">Mrs. Johnson</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Mathematics</div>
+                                        <div class="subject-teacher">Mr. Adebayo</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Yoruba</div>
+                                        <div class="subject-teacher">Mrs. Adeleke</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Basic Tech</div>
+                                        <div class="subject-teacher">Mr. Musa</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Mathematics</div>
+                                        <div class="subject-teacher">Mr. Adebayo</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>9:20 - 10:00</div>
+                                    <div class="period-time">Period 3</div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Basic Science</div>
+                                        <div class="subject-teacher">Mr. Okoro</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Social Studies</div>
+                                        <div class="subject-teacher">Mrs. Bello</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Mathematics</div>
+                                        <div class="subject-teacher">Mr. Adebayo</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">English</div>
+                                        <div class="subject-teacher">Mrs. Johnson</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Basic Tech</div>
+                                        <div class="subject-teacher">Mr. Musa</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>10:00 - 10:20</div>
+                                    <div class="period-time">Break</div>
+                                </td>
+                                <td colspan="5" style="background-color: #f8fafc; text-align: center;">
+                                    <i class="bi bi-cup-hot"></i> Break Time
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>10:20 - 11:00</div>
+                                    <div class="period-time">Period 4</div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Computer Studies</div>
+                                        <div class="subject-teacher">Mr. Ibrahim</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Basic Science</div>
+                                        <div class="subject-teacher">Mr. Okoro</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">English</div>
+                                        <div class="subject-teacher">Mrs. Johnson</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Social Studies</div>
+                                        <div class="subject-teacher">Mrs. Bello</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">CRK</div>
+                                        <div class="subject-teacher">Mr. Emmanuel</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>11:00 - 11:40</div>
+                                    <div class="period-time">Period 5</div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Creative Arts</div>
+                                        <div class="subject-teacher">Mrs. Adekunle</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Basic Tech</div>
+                                        <div class="subject-teacher">Mr. Musa</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Computer Studies</div>
+                                        <div class="subject-teacher">Mr. Ibrahim</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Mathematics</div>
+                                        <div class="subject-teacher">Mr. Adebayo</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">PHE</div>
+                                        <div class="subject-teacher">Mr. Ojo</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>11:40 - 12:20</div>
+                                    <div class="period-time">Period 6</div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">PHE</div>
+                                        <div class="subject-teacher">Mr. Ojo</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Computer Studies</div>
+                                        <div class="subject-teacher">Mr. Ibrahim</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Social Studies</div>
+                                        <div class="subject-teacher">Mrs. Bello</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">Basic Science</div>
+                                        <div class="subject-teacher">Mr. Okoro</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">English</div>
+                                        <div class="subject-teacher">Mrs. Johnson</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        <button class="btn btn-outline-primary">
+                            <i class="bi bi-printer"></i> Print Timetable
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary">
+                            <i class="bi bi-pencil"></i> Edit Timetable
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Timetable Card -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-person"></i> Teacher Timetable - Mr. Adebayo (Mathematics)</h5>
+                <p>First Term - 2023/2024 Academic Year</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="timetable">
+                        <thead>
+                            <tr>
+                                <th>Time/Day</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>8:00 - 8:40</div>
+                                    <div class="period-time">Period 1</div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 1A</div>
+                                        <div class="subject-teacher">Room 12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 2B</div>
+                                        <div class="subject-teacher">Room 8</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 1B</div>
+                                        <div class="subject-teacher">Room 11</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 1A</div>
+                                        <div class="subject-teacher">Room 12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 1B</div>
+                                        <div class="subject-teacher">Room 11</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>8:40 - 9:20</div>
+                                    <div class="period-time">Period 2</div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 2A</div>
+                                        <div class="subject-teacher">Room 7</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 1A</div>
+                                        <div class="subject-teacher">Room 12</div>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 2B</div>
+                                        <div class="subject-teacher">Room 8</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 1A</div>
+                                        <div class="subject-teacher">Room 12</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>9:20 - 10:00</div>
+                                    <div class="period-time">Period 3</div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 1A</div>
+                                        <div class="subject-teacher">Room 12</div>
+                                    </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>10:00 - 10:20</div>
+                                    <div class="period-time">Break</div>
+                                </td>
+                                <td colspan="5" style="background-color: #f8fafc; text-align: center;">
+                                    <i class="bi bi-cup-hot"></i> Break Time
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>10:20 - 11:00</div>
+                                    <div class="period-time">Period 4</div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="subject-card">
+                                        <div class="subject-name">JSS 2A</div>
+                                        <div class="subject-teacher">Room 7</div>
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <br><br>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
+        </div>
+    </footer>
+    
+    <script src="main.js"></script>
+</body>
+</html>

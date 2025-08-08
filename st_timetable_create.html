@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolPass ERP - Create New Timetable</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Use the same styles as st_timetable.html */
+        .main-content {
+            padding: 2rem;
+            background-color: #f8fafc;
+            min-height: calc(100vh - 70px);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .card-header h5 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header h5 i {
+            margin-right: 0.75rem;
+            color: #49c5b6;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .form-control, .form-select {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            font-size: 0.875rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            background-color: white;
+        }
+        
+        .required-field::after {
+            content: " *";
+            color: #ef4444;
+        }
+        
+        .period-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .period-time {
+            width: 120px;
+            margin-right: 1rem;
+        }
+        
+        .period-subject {
+            flex-grow: 1;
+            margin-right: 1rem;
+        }
+        
+        .period-teacher {
+            width: 200px;
+            margin-right: 1rem;
+        }
+        
+        .period-room {
+            width: 120px;
+        }
+        
+        @media (max-width: 768px) {
+            .period-row {
+                flex-wrap: wrap;
+            }
+            
+            .period-time, .period-subject, .period-teacher, .period-room {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+        <header class="top-header">
+        <div class="logo">
+            <h2 class="logo-text">SchoolPass ERP</h2>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation">
+        <i class="bi bi-list"></i>
+           </button>
+           
+        <nav class="topbar-nav" id="mainNavigation"> <ul>
+                <li><a href="index.html" class="active"><i class="bi bi-house"></i> Overview</a></li>
+                <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
+                <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
+                <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
+                <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
+                <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
+                <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+            </ul>
+             </nav>
+            <div class="user-nav">
+                <div class="dropdown">
+                <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">
+                        <img src="/Veritas/Images/ig.png" alt="User">
+                    </div>
+                    <span class="user-name">Welcome, Admin</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                    <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell mr-2"></i> Notifications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
+                </ul>
+                </div>
+            </div>
+           
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div class="header-content">  
+                <h1><i class="bi bi-calendar-plus"></i> Create New Timetable</h1>
+                <p>Design a new timetable for your school</p>
+            </div>
+             <button class="btn btn-outline-success me-3" onclick="history.back();">
+                    <i class="bi bi-arrow-left"></i> Back
+                </button>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-info-circle"></i> Basic Information</h5>
+                <p>Fill in the basic details about the timetable</p>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label for="timetableName" class="form-label required-field">Timetable Name</label>
+                            <input type="text" class="form-control" id="timetableName" placeholder="e.g. JSS 1A First Term Timetable" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="timetableClass" class="form-label required-field">Class</label>
+                            <select class="form-select" id="timetableClass" required>
+                                <option value="">Select Class</option>
+                                <option value="JSS 1A">JSS 1A</option>
+                                <option value="JSS 1B">JSS 1B</option>
+                                <option value="JSS 2A">JSS 2A</option>
+                                <option value="JSS 2B">JSS 2B</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label for="timetableTerm" class="form-label">Term</label>
+                            <select class="form-select" id="timetableTerm">
+                                <option value="">Select Term</option>
+                                <option value="1">First Term</option>
+                                <option value="2">Second Term</option>
+                                <option value="3">Third Term</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="timetableSession" class="form-label">Session</label>
+                            <select class="form-select" id="timetableSession">
+                                <option value="">Select Session</option>
+                                <option value="morning">Morning</option>
+                                <option value="afternoon">Afternoon</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="timetableAcademicYear" class="form-label required-field">Academic Year</label>
+                            <select class="form-select" id="timetableAcademicYear" required>
+                                <option value="">Select Year</option>
+                                <option value="2023/2024">2023/2024</option>
+                                <option value="2024/2025">2024/2025</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="timetableDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="timetableDescription" rows="3" placeholder="Enter timetable description"></textarea>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Information</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Monday Schedule -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-calendar-day"></i> Monday Schedule</h5>
+                <p>Set up the timetable for Monday</p>
+            </div>
+            <div class="card-body">
+                <div class="period-row">
+                    <div class="period-time">
+                        <input type="text" class="form-control" value="8:00 - 8:40" readonly>
+                    </div>
+                    <div class="period-subject">
+                        <select class="form-select">
+                            <option value="">Select Subject</option>
+                            <option value="maths">Mathematics</option>
+                            <option value="english">English</option>
+                            <option value="science">Basic Science</option>
+                        </select>
+                    </div>
+                    <div class="period-teacher">
+                        <select class="form-select">
+                            <option value="">Select Teacher</option>
+                            <option value="t1">Mr. Adebayo</option>
+                            <option value="t2">Mrs. Johnson</option>
+                            <option value="t3">Mr. Okoro</option>
+                        </select>
+                    </div>
+                    <div class="period-room">
+                        <input type="text" class="form-control" placeholder="Room">
+                    </div>
+                </div>
+                
+                <!-- Add more period rows as needed -->
+                
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="button" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-plus"></i> Add Period
+                    </button>
+                    <button type="button" class="btn btn-sm btn-primary">
+                        <i class="bi bi-save"></i> Save Monday
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Other days of the week (Tuesday to Friday) can be added similarly -->
+        
+        <div class="d-flex justify-content-end mt-3">
+            <button type="button" class="btn btn-secondary me-2">Cancel</button>
+            <button type="button" class="btn btn-primary">Publish Timetable</button>
+        </div>
+    </main>
+        <br><br>
+  
+   <footer class="site-footer">
+        <div class="footer-content">
+            <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
+        </div>
+    </footer>
+    
+    <script src="main.js"></script>
+</body>
+</html>
