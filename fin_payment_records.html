@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolPass ERP - Payment Records</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Same styles as dashboard */
+        :root {
+            --primary: #0E4329;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --accent: #49c5b6;
+            --muted: #6b7280;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .hero-title {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.75rem;
+        }
+        
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card-description {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .btn-hero {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+        }
+        
+        .btn-hero:hover {
+            background-color: #0a2e1c;
+            color: white;
+        }
+        
+        .table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: #334155;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header Navigation -->
+    <header class="top-header">
+        <div class="logo">
+            <h2 class="logo-text">SchoolPass ERP</h2>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
+           
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html"><i class="bi bi-house"></i> Overview</a></li>
+                <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
+                <li><a href="finance.html" class="active"><i class="bi bi-wallet2"></i> Finance</a></li>
+                <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
+                <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
+                <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
+                <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+            </ul>
+        </nav>
+        <div class="user-nav">
+            <div class="dropdown">
+                <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">
+                        <img src="/Veritas/Images/ig.png" alt="User">
+                    </div>
+                    <span class="user-name">Welcome, Admin</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                    <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell mr-2"></i> Notifications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container-fluid py-4">
+        <!-- Header Section -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+            <div>
+                <h1 class="hero-title"><i class="bi bi-file-earmark me-2"></i>Payment Records</h1>
+                <p class="text-muted">View and manage all payment transactions</p>
+            </div>
+            <button class="btn btn-hero" data-bs-toggle="modal" data-bs-target="#recordPaymentModal">
+                <i class="bi bi-plus me-2"></i> Record Payment
+            </button>
+        </div>
+
+        <!-- Payment Filter Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="card-title"><i class="bi bi-funnel me-2 text-primary"></i> Filter Payments</h3>
+                <p class="card-description">Search and filter payment records</p>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="paymentDate" class="form-label">Date Range</label>
+                            <input type="date" class="form-control" id="paymentDate">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="paymentClass" class="form-label">Class</label>
+                            <select class="form-select" id="paymentClass">
+                                <option value="">All Classes</option>
+                                <option value="JSS 1">JSS 1</option>
+                                <option value="JSS 2">JSS 2</option>
+                                <option value="JSS 3">JSS 3</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="paymentStatus" class="form-label">Status</label>
+                            <select class="form-select" id="paymentStatus">
+                                <option value="">All Statuses</option>
+                                <option value="completed">Completed</option>
+                                <option value="partial">Partial</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-filter me-2"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Payment Records Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="bi bi-list-check me-2 text-primary"></i> Recent Payments</h3>
+                <p class="card-description">Last 50 payment transactions</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Receipt No.</th>
+                                <th>Student</th>
+                                <th>Class</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>15 Jan 2024</td>
+                                <td>REC-2024-001</td>
+                                <td>Adebayo Kemi</td>
+                                <td>JSS 1A</td>
+                                <td>₦85,000</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button>
+                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-receipt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>14 Jan 2024</td>
+                                <td>REC-2024-002</td>
+                                <td>Okafor Chidi</td>
+                                <td>SS 1B</td>
+                                <td>₦60,000</td>
+                                <td><span class="badge badge-warning">Partial</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button>
+                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-receipt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>13 Jan 2024</td>
+                                <td>REC-2024-003</td>
+                                <td>Hassan Fatima</td>
+                                <td>JSS 2A</td>
+                                <td>₦90,000</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button>
+                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-receipt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>12 Jan 2024</td>
+                                <td>REC-2024-004</td>
+                                <td>Yusuf Mohammed</td>
+                                <td>JSS 1B</td>
+                                <td>₦0</td>
+                                <td><span class="badge badge-danger">Failed</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button>
+                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-receipt"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="d-flex justify-content-between mt-3">
+                    <div>
+                        <button class="btn btn-outline-primary">
+                            <i class="bi bi-printer me-2"></i> Print
+                        </button>
+                    </div>
+                    <div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Record Payment Modal -->
+    <div class="modal fade" id="recordPaymentModal" tabindex="-1" aria-labelledby="recordPaymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recordPaymentModalLabel"><i class="bi bi-plus me-2"></i> Record Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="paymentStudent" class="form-label">Student *</label>
+                                <select class="form-select" id="paymentStudent" required>
+                                    <option value="">Select Student</option>
+                                    <option value="ST001">Adebayo Kemi (JSS 1A)</option>
+                                    <option value="ST002">Okafor Chidi (SS 1B)</option>
+                                    <option value="ST003">Hassan Fatima (JSS 2A)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="paymentDate" class="form-label">Payment Date *</label>
+                                <input type="date" class="form-control" id="paymentDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="paymentMethod" class="form-label">Payment Method *</label>
+                                <select class="form-select" id="paymentMethod" required>
+                                    <option value="">Select Method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="bank">Bank Transfer</option>
+                                    <option value="card">Card Payment</option>
+                                    <option value="online">Online Payment</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="paymentAmount" class="form-label">Amount (₦) *</label>
+                                <input type="number" class="form-control" id="paymentAmount" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="paymentDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="paymentDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Record Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br> <br>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
