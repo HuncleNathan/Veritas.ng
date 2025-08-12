@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolPass ERP - Appraisal Reports</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .main-content {
+            padding: 2rem;
+            background-color: #f8fafc;
+            min-height: calc(100vh - 70px);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+        }
+        
+        .filter-section {
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .report-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .report-card h3 {
+            font-size: 1.25rem;
+            color: #0E4329;
+            margin-bottom: 1.5rem;
+        }
+        
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .report-item {
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+        
+        .report-item:hover {
+            transform: translateY(-2px);
+        }
+        
+        .report-item h4 {
+            font-size: 1rem;
+            color: #0E4329;
+            margin-bottom: 1rem;
+        }
+        
+        .report-item p {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .report-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.25rem;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header Navigation -->
+    <header class="top-header">
+        <div class="logo">
+            <h2 class="logo-text">SchoolPass ERP</h2>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
+           
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html"><i class="bi bi-house"></i> Overview</a></li>
+                <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
+                <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
+                <li><a href="personnel.html" class="active"><i class="bi bi-people"></i> Personnel</a></li>
+                <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
+                <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
+                <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+            </ul>
+        </nav>
+        
+        <div class="user-nav">
+            <div class="dropdown">
+                <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">
+                        <img src="/Veritas/Images/ig.png" alt="User">
+                    </div>
+                    <span class="user-name">Welcome, Admin</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                    <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell mr-2"></i> Notifications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div class="header-content">  
+                <h1><i class="bi bi-file-earmark-bar-graph"></i> Appraisal Reports</h1>
+                <p>View and analyze performance appraisal data</p>
+            </div>
+            <button class="btn btn-primary" onclick="window.location.href='pn_generate_report.html'">
+                <i class="bi bi-plus-circle"></i> Generate Report
+            </button>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <form>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="reportType" class="form-label">Report Type</label>
+                        <select class="form-select" id="reportType">
+                            <option value="">All Reports</option>
+                            <option>Summary Reports</option>
+                            <option>Detailed Reports</option>
+                            <option>Comparative Reports</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="appraisalCycle" class="form-label">Appraisal Cycle</label>
+                        <select class="form-select" id="appraisalCycle">
+                            <option value="">All Cycles</option>
+                            <option>Q1 2024</option>
+                            <option>Q4 2023</option>
+                            <option>Q3 2023</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-filter"></i> Apply Filters
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Reports Grid -->
+        <div class="report-card">
+            <h3>Available Reports</h3>
+            <div class="report-grid">
+                <!-- Report Item 1 -->
+                <div class="report-item">
+                    <h4>Q1 2024 Performance Summary</h4>
+                    <p>Summary of all staff performance ratings for Q1 2024, including department averages and trends.</p>
+                    <div class="report-meta">
+                        <span>Generated: 15 Apr 2024</span>
+                        <span>PDF, 1.2MB</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-3">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Report Item 2 -->
+                <div class="report-item">
+                    <h4>Teacher Performance Q1 2024</h4>
+                    <p>Detailed analysis of teaching staff performance, including student feedback and observation scores.</p>
+                    <div class="report-meta">
+                        <span>Generated: 10 Apr 2024</span>
+                        <span>PDF, 2.4MB</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-3">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Report Item 3 -->
+                <div class="report-item">
+                    <h4>Annual Performance Trends</h4>
+                    <p>Comparison of performance trends across all appraisal cycles in 2023, with department breakdowns.</p>
+                    <div class="report-meta">
+                        <span>Generated: 5 Jan 2024</span>
+                        <span>PDF, 3.1MB</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-3">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Report Item 4 -->
+                <div class="report-item">
+                    <h4>Support Staff Evaluation 2023</h4>
+                    <p>Comprehensive evaluation of all non-teaching staff performance metrics for the year 2023.</p>
+                    <div class="report-meta">
+                        <span>Generated: 20 Dec 2023</span>
+                        <span>PDF, 1.8MB</span>
+                    </div>
+                    <div class="d-flex gap-2 mt-3">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <br><br>
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
