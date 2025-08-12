@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolPass ERP - Finance Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Dashboard Overrides */
+        .main-content {
+            padding: 2rem;
+            background-color: #f8fafc;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* Card Styles */
+        .dashboard-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .card-header h5 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header h5 i {
+            margin-right: 0.75rem;
+            color: #49c5b6;
+        }
+        
+        .card-header p {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin: 0.5rem 0 0;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Finance Summary Cards */
+        .finance-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-card {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .summary-card .icon {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            align-self: flex-end;
+        }
+        
+        .summary-card .amount {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-card .title {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        .summary-total {
+            background: linear-gradient(135deg, #0E4329 0%, #49c5b6 100%);
+        }
+        
+        .summary-received {
+            background: linear-gradient(135deg, #166534 0%, #86efac 100%);
+        }
+        
+        .summary-pending {
+            background: linear-gradient(135deg, #92400e 0%, #fcd34d 100%);
+        }
+        
+        .summary-expenses {
+            background: linear-gradient(135deg, #991b1b 0%, #fca5a5 100%);
+        }
+        
+        /* Tab Navigation */
+        .finance-tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .finance-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .finance-tab.active {
+            color: #0E4329;
+            border-bottom-color: #49c5b6;
+        }
+        
+        .finance-tab:hover:not(.active) {
+            color: #334155;
+            border-bottom-color: #e2e8f0;
+        }
+        
+        /* Table Styles */
+        .finance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .finance-table th {
+            background-color: #f1f5f9;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #334155;
+            font-size: 0.875rem;
+        }
+        
+        .finance-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.875rem;
+        }
+        
+        .finance-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+        }
+        
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .badge-info {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #f1f5f9;
+            color: #64748b;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .action-btn:hover {
+            background-color: #e2e8f0;
+            color: #334155;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.25rem;
+            }
+            
+            .card-header, .card-body {
+                padding: 1rem;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .finance-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header Navigation -->
+    <header class="top-header">
+        <div class="logo">
+            <h2 class="logo-text">SchoolPass ERP</h2>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
+           
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html"><i class="bi bi-house"></i> Overview</a></li>
+                <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
+                <li><a href="finance.html" class="active"><i class="bi bi-wallet2"></i> Finance</a></li>
+                <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
+                <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
+                <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
+                <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+            </ul>
+        </nav>
+        
+        <div class="user-nav">
+            <div class="dropdown">
+                <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">
+                        <img src="/Veritas/Images/ig.png" alt="User">
+                    </div>
+                    <span class="user-name">Welcome, Admin</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                    <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell mr-2"></i> Notifications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div class="header-content">  
+                <h1><i class="bi bi-wallet2"></i> Finance Management</h1>
+                <p>Manage school finances, fee structures, expenses, and payment records</p>
+            </div>
+            <div>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newPaymentModal">
+                    <i class="bi bi-plus-circle"></i> New Payment
+                </button>
+                <button class="btn btn-outline-success ms-2" data-bs-toggle="modal" data-bs-target="#newExpenseModal">
+                    <i class="bi bi-cash-stack"></i> Record Expense
+                </button>
+            </div>
+        </div>
+
+        <!-- Finance Summary Cards -->
+        <div class="finance-summary">
+            <div class="summary-card summary-total">
+                <div class="icon"><i class="bi bi-currency-exchange"></i></div>
+                <div class="amount">₦2,450,000</div>
+                <div class="title">Total Revenue This Term</div>
+            </div>
+            <div class="summary-card summary-received">
+                <div class="icon"><i class="bi bi-check-circle"></i></div>
+                <div class="amount">₦1,980,500</div>
+                <div class="title">Received Payments</div>
+            </div>
+            <div class="summary-card summary-pending">
+                <div class="icon"><i class="bi bi-clock-history"></i></div>
+                <div class="amount">₦469,500</div>
+                <div class="title">Pending Payments</div>
+            </div>
+            <div class="summary-card summary-expenses">
+                <div class="icon"><i class="bi bi-receipt"></i></div>
+                <div class="amount">₦1,250,300</div>
+                <div class="title">Total Expenses</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Fee Structure Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5><i class="bi bi-list-check"></i> Fee Structures</h5>
+                    <p>Manage and configure school fee structures for all classes</p>
+                </div>
+                <div class="card-body">
+                    <div class="finance-tabs">
+                        <div class="finance-tab active">Current Term</div>
+                        <div class="finance-tab">Previous Terms</div>
+                        <div class="finance-tab">Next Term</div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="finance-table">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Term</th>
+                                    <th>Academic Year</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>JSS 1</td>
+                                    <td>First Term</td>
+                                    <td>2023/2024</td>
+                                    <td>₦85,000</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>JSS 2</td>
+                                    <td>First Term</td>
+                                    <td>2023/2024</td>
+                                    <td>₦90,000</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>SS 1</td>
+                                    <td>First Term</td>
+                                    <td>2023/2024</td>
+                                    <td>₦120,000</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>JSS 3</td>
+                                    <td>First Term</td>
+                                    <td>2022/2023</td>
+                                    <td>₦80,000</td>
+                                    <td><span class="badge badge-warning">Inactive</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            <button class="btn btn-outline-primary">
+                                <i class="bi bi-printer me-1"></i> Print
+                            </button>
+                            <button class="btn btn-outline-secondary ms-2">
+                                <i class="bi bi-download me-1"></i> Export
+                            </button>
+                        </div>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newFeeStructureModal">
+                            <i class="bi bi-plus me-1"></i> New Fee Structure
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Records Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5><i class="bi bi-cash-coin"></i> Payment Records</h5>
+                    <p>Track all student payment transactions and receipts</p>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="input-group" style="max-width: 300px;">
+                            <input type="text" class="form-control" placeholder="Search payments...">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <select class="form-select" style="width: 150px;">
+                                <option>All Classes</option>
+                                <option>JSS 1</option>
+                                <option>JSS 2</option>
+                                <option>JSS 3</option>
+                                <option>SS 1</option>
+                                <option>SS 2</option>
+                                <option>SS 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="finance-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Receipt No.</th>
+                                    <th>Student</th>
+                                    <th>Class</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>15 Jan 2024</td>
+                                    <td>REC-2024-001</td>
+                                    <td>Adebayo Kemi</td>
+                                    <td>JSS 1A</td>
+                                    <td>₦85,000</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Print"><i class="bi bi-printer"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>14 Jan 2024</td>
+                                    <td>REC-2024-002</td>
+                                    <td>Okafor Chidi</td>
+                                    <td>SS 1B</td>
+                                    <td>₦60,000</td>
+                                    <td><span class="badge badge-warning">Partial</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Print"><i class="bi bi-printer"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>13 Jan 2024</td>
+                                    <td>REC-2024-003</td>
+                                    <td>Hassan Fatima</td>
+                                    <td>JSS 2A</td>
+                                    <td>₦90,000</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Print"><i class="bi bi-printer"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>12 Jan 2024</td>
+                                    <td>REC-2024-004</td>
+                                    <td>Yusuf Mohammed</td>
+                                    <td>JSS 1B</td>
+                                    <td>₦0</td>
+                                    <td><span class="badge badge-danger">Failed</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Print"><i class="bi bi-printer"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="text-muted">Showing 1 to 4 of 127 entries</div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Expense Records Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5><i class="bi bi-receipt"></i> Expense Records</h5>
+                    <p>Track all school expenses and financial outflows</p>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="input-group" style="max-width: 300px;">
+                            <input type="text" class="form-control" placeholder="Search expenses...">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <select class="form-select" style="width: 150px;">
+                                <option>All Categories</option>
+                                <option>Stationery</option>
+                                <option>Maintenance</option>
+                                <option>Salaries</option>
+                                <option>Utilities</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="finance-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Voucher No.</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>15 Jan 2024</td>
+                                    <td>EXP-2024-001</td>
+                                    <td>Textbooks for JSS 1</td>
+                                    <td>Stationery</td>
+                                    <td>₦120,000</td>
+                                    <td><span class="badge badge-success">Approved</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Receipt"><i class="bi bi-receipt"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>14 Jan 2024</td>
+                                    <td>EXP-2024-002</td>
+                                    <td>Classroom repairs</td>
+                                    <td>Maintenance</td>
+                                    <td>₦75,000</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Receipt"><i class="bi bi-receipt"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>13 Jan 2024</td>
+                                    <td>EXP-2024-003</td>
+                                    <td>Electricity bill</td>
+                                    <td>Utilities</td>
+                                    <td>₦45,000</td>
+                                    <td><span class="badge badge-success">Approved</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Receipt"><i class="bi bi-receipt"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>12 Jan 2024</td>
+                                    <td>EXP-2024-004</td>
+                                    <td>New projector</td>
+                                    <td>Equipment</td>
+                                    <td>₦150,000</td>
+                                    <td><span class="badge badge-danger">Rejected</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Receipt"><i class="bi bi-receipt"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            <button class="btn btn-outline-primary">
+                                <i class="bi bi-printer me-1"></i> Print
+                            </button>
+                            <button class="btn btn-outline-secondary ms-2">
+                                <i class="bi bi-file-earmark-excel me-1"></i> Export
+                            </button>
+                        </div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- New Fee Structure Modal -->
+    <div class="modal fade" id="newFeeStructureModal" tabindex="-1" aria-labelledby="newFeeStructureModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newFeeStructureModalLabel"><i class="bi bi-plus me-2"></i> New Fee Structure</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="feeClass" class="form-label">Class *</label>
+                                <select class="form-select" id="feeClass" required>
+                                    <option value="">Select Class</option>
+                                    <option value="JSS 1">JSS 1</option>
+                                    <option value="JSS 2">JSS 2</option>
+                                    <option value="JSS 3">JSS 3</option>
+                                    <option value="SS 1">SS 1</option>
+                                    <option value="SS 2">SS 2</option>
+                                    <option value="SS 3">SS 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="feeTerm" class="form-label">Term *</label>
+                                <select class="form-select" id="feeTerm" required>
+                                    <option value="">Select Term</option>
+                                    <option value="1">First Term</option>
+                                    <option value="2">Second Term</option>
+                                    <option value="3">Third Term</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="feeAcademicYear" class="form-label">Academic Year *</label>
+                                <select class="form-select" id="feeAcademicYear" required>
+                                    <option value="">Select Year</option>
+                                    <option value="2023/2024">2023/2024</option>
+                                    <option value="2024/2025">2024/2025</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="feeStatus" class="form-label">Status *</label>
+                                <select class="form-select" id="feeStatus" required>
+                                    <option value="active" selected>Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Fee Items *</label>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Fee Item</th>
+                                            <th>Amount (₦)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="feeItemsTable">
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control" placeholder="e.g. Tuition">
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" placeholder="0.00">
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="addFeeItem">
+                                <i class="bi bi-plus me-2"></i> Add Fee Item
+                            </button>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="feeNotes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="feeNotes" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save Fee Structure</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Payment Modal -->
+    <div class="modal fade" id="newPaymentModal" tabindex="-1" aria-labelledby="newPaymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newPaymentModalLabel"><i class="bi bi-plus me-2"></i> Record Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="paymentStudent" class="form-label">Student *</label>
+                                <select class="form-select" id="paymentStudent" required>
+                                    <option value="">Select Student</option>
+                                    <option value="ST001">Adebayo Kemi (JSS 1A)</option>
+                                    <option value="ST002">Okafor Chidi (SS 1B)</option>
+                                    <option value="ST003">Hassan Fatima (JSS 2A)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="paymentDate" class="form-label">Payment Date *</label>
+                                <input type="date" class="form-control" id="paymentDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="paymentMethod" class="form-label">Payment Method *</label>
+                                <select class="form-select" id="paymentMethod" required>
+                                    <option value="">Select Method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="bank">Bank Transfer</option>
+                                    <option value="card">Card Payment</option>
+                                    <option value="online">Online Payment</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="paymentAmount" class="form-label">Amount (₦) *</label>
+                                <input type="number" class="form-control" id="paymentAmount" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="paymentDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="paymentDescription" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Record Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Expense Modal -->
+    <div class="modal fade" id="newExpenseModal" tabindex="-1" aria-labelledby="newExpenseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newExpenseModalLabel"><i class="bi bi-plus me-2"></i> Record Expense</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="expenseDate" class="form-label">Date *</label>
+                                <input type="date" class="form-control" id="expenseDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="expenseCategory" class="form-label">Category *</label>
+                                <select class="form-select" id="expenseCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="stationery">Stationery</option>
+                                    <option value="maintenance">Maintenance</option>
+                                    <option value="salaries">Salaries</option>
+                                    <option value="utilities">Utilities</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="expenseAmount" class="form-label">Amount (₦) *</label>
+                                <input type="number" class="form-control" id="expenseAmount" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="expensePaymentMethod" class="form-label">Payment Method *</label>
+                                <select class="form-select" id="expensePaymentMethod" required>
+                                    <option value="">Select Method</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="bank">Bank Transfer</option>
+                                    <option value="cheque">Cheque</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="expenseDescription" class="form-label">Description *</label>
+                            <textarea class="form-control" id="expenseDescription" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="expenseReceipt" class="form-label">Receipt/Invoice</label>
+                            <input type="file" class="form-control" id="expenseReceipt">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Record Expense</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
+        </div>
+    </footer>
+    
+    <script src="main.js"></script>
+    <script>
+        // Add fee item row dynamically
+        document.getElementById('addFeeItem').addEventListener('click', function() {
+            const table = document.getElementById('feeItemsTable');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>
+                    <input type="text" class="form-control" placeholder="e.g. Tuition">
+                </td>
+                <td>
+                    <input type="number" class="form-control" placeholder="0.00">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            `;
+            table.appendChild(newRow);
+            
+            // Add event listener to the new delete button
+            newRow.querySelector('button').addEventListener('click', function() {
+                table.removeChild(newRow);
+            });
+        });
+    </script>
+</body>
+</html>

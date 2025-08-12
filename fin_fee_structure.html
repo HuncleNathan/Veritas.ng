@@ -8,88 +8,188 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Same styles as dashboard */
-        :root {
-            --primary: #0E4329;
-            --success: #16a34a;
-            --warning: #d97706;
-            --danger: #dc2626;
-            --accent: #49c5b6;
-            --muted: #6b7280;
-        }
-        
-        body {
+        /* Dashboard Overrides */
+        .main-content {
+            padding: 2rem;
             background-color: #f8fafc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: calc(100vh - 70px);
         }
         
-        .hero-title {
-            color: var(--primary);
-            font-weight: 700;
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .dashboard-header h1 {
             font-size: 1.75rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
         }
         
-        .card {
-            border: 1px solid #e2e8f0;
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* Card Styles */
+        .dashboard-card {
+            background: white;
             border-radius: 0.75rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
             overflow: hidden;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         
         .card-header {
+            padding: 1.25rem 1.5rem;
             background-color: white;
             border-bottom: 1px solid #e2e8f0;
-            padding: 1.25rem 1.5rem;
         }
         
-        .card-title {
+        .card-header h5 {
             font-size: 1.125rem;
             font-weight: 600;
-            color: var(--primary);
+            color: #0E4329;
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
         }
         
-        .card-description {
-            color: var(--muted);
+        .card-header h5 i {
+            margin-right: 0.75rem;
+            color: #49c5b6;
+        }
+        
+        .card-header p {
+            color: #64748b;
             font-size: 0.875rem;
-            margin-top: 0.25rem;
+            margin: 0.5rem 0 0;
         }
         
-        .badge-active {
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Tab Navigation */
+        .finance-tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .finance-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .finance-tab.active {
+            color: #0E4329;
+            border-bottom-color: #49c5b6;
+        }
+        
+        .finance-tab:hover:not(.active) {
+            color: #334155;
+            border-bottom-color: #e2e8f0;
+        }
+        
+        /* Table Styles */
+        .finance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .finance-table th {
+            background-color: #f1f5f9;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #334155;
+            font-size: 0.875rem;
+        }
+        
+        .finance-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.875rem;
+        }
+        
+        .finance-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+        }
+        
+        .badge-success {
             background-color: #dcfce7;
             color: #166534;
         }
         
-        .badge-inactive {
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
             background-color: #f1f5f9;
             color: #64748b;
-        }
-        
-        .btn-hero {
-            background-color: var(--primary);
-            color: white;
             border: none;
-            padding: 0.5rem 1rem;
-            font-weight: 500;
+            transition: all 0.2s;
         }
         
-        .btn-hero:hover {
-            background-color: #0a2e1c;
-            color: white;
-        }
-        
-        .table th {
-            background-color: #f1f5f9;
-            font-weight: 600;
+        .action-btn:hover {
+            background-color: #e2e8f0;
             color: #334155;
         }
         
-        .table td {
-            vertical-align: middle;
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.25rem;
+            }
+            
+            .card-header, .card-body {
+                padding: 1rem;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .finance-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
         }
     </style>
 </head>
@@ -114,6 +214,7 @@
                 <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
             </ul>
         </nav>
+        
         <div class="user-nav">
             <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -135,93 +236,115 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container-fluid py-4">
-        <!-- Header Section -->
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
-            <div>
-                <h1 class="hero-title"><i class="bi bi-list me-2"></i>Fee Structure</h1>
-                <p class="text-muted">Manage and configure school fee structures</p>
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div class="header-content">  
+                <h1><i class="bi bi-list-check"></i> Fee Structure</h1>
+                <p>Manage and configure school fee structures for all classes</p>
             </div>
-            <button class="btn btn-hero" data-bs-toggle="modal" data-bs-target="#newFeeStructureModal">
-                <i class="bi bi-plus me-2"></i> New Fee Structure
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newFeeStructureModal">
+                <i class="bi bi-plus-circle"></i> New Fee Structure
             </button>
         </div>
 
-        <!-- Current Fee Structures -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title"><i class="bi bi-wallet me-2 text-primary"></i> Current Fee Structures</h3>
-                <p class="card-description">Active and inactive fee structures for all classes</p>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Class</th>
-                                <th>Term</th>
-                                <th>Academic Year</th>
-                                <th>Total Amount</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>JSS 1</td>
-                                <td>First Term</td>
-                                <td>2023/2024</td>
-                                <td>₦85,000</td>
-                                <td><span class="badge badge-active">Active</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>JSS 2</td>
-                                <td>First Term</td>
-                                <td>2023/2024</td>
-                                <td>₦90,000</td>
-                                <td><span class="badge badge-active">Active</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>SS 1</td>
-                                <td>First Term</td>
-                                <td>2023/2024</td>
-                                <td>₦120,000</td>
-                                <td><span class="badge badge-active">Active</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>JSS 3</td>
-                                <td>First Term</td>
-                                <td>2022/2023</td>
-                                <td>₦80,000</td>
-                                <td><span class="badge badge-inactive">Inactive</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="dashboard-grid">
+            <!-- Fee Structure Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h5><i class="bi bi-list-check"></i> Current Fee Structures</h5>
+                    <p>Active and inactive fee structures for all classes</p>
                 </div>
-                
-                <div class="d-flex justify-content-end mt-3">
-                    <button class="btn btn-outline-primary me-2">
-                        <i class="bi bi-printer me-2"></i> Print
-                    </button>
-                    <button class="btn btn-primary">
-                        <i class="bi bi-download me-2"></i> Export
-                    </button>
+                <div class="card-body">
+                    <div class="finance-tabs">
+                        <div class="finance-tab active">Current Term</div>
+                        <div class="finance-tab">Previous Terms</div>
+                        <div class="finance-tab">Next Term</div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="finance-table">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Term</th>
+                                    <th>Academic Year</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>JSS 1</td>
+                                    <td>First Term</td>
+                                    <td>2023/2024</td>
+                                    <td>₦85,000</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>JSS 2</td>
+                                    <td>First Term</td>
+                                    <td>2023/2024</td>
+                                    <td>₦90,000</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>SS 1</td>
+                                    <td>First Term</td>
+                                    <td>2023/2024</td>
+                                    <td>₦120,000</td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>JSS 3</td>
+                                    <td>First Term</td>
+                                    <td>2022/2023</td>
+                                    <td>₦80,000</td>
+                                    <td><span class="badge badge-warning">Inactive</span></td>
+                                    <td>
+                                        <button class="action-btn me-1" title="View"><i class="bi bi-eye"></i></button>
+                                        <button class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            <button class="btn btn-outline-primary">
+                                <i class="bi bi-printer me-1"></i> Print
+                            </button>
+                            <button class="btn btn-outline-secondary ms-2">
+                                <i class="bi bi-download me-1"></i> Export
+                            </button>
+                        </div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
@@ -325,14 +448,14 @@
             </div>
         </div>
     </div>
-
+    <br> <br>
     <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-content">
             <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
         </div>
     </footer>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Add fee item row dynamically
