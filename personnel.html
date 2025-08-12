@@ -3,12 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SchoolPass ERP - Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SchoolPass ERP - Personnel Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>  
-    
-      
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Dashboard Overrides */
+        .main-content {
+            padding: 2rem;
+            background-color: #f8fafc;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .stat-card .icon {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: #49c5b6;
+        }
+        
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #0E4329;
+        }
+        
+        .stat-card .title {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .stat-card .trend {
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        .trend-positive {
+            color: #16a34a;
+        }
+        
+        .trend-negative {
+            color: #dc2626;
+        }
+        
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .feature-card .card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .feature-card .card-header h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #0E4329;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-card .card-header h3 i {
+            margin-right: 0.75rem;
+            color: #49c5b6;
+        }
+        
+        .feature-card .card-header p {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin: 0.5rem 0 0;
+        }
+        
+        .feature-card .card-body {
+            padding: 1.5rem;
+        }
+        
+        .feature-card .btn {
+            width: 100%;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .feature-card .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.25rem;
+            }
+            
+            .dashboard-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Top Header Navigation -->
@@ -17,21 +164,23 @@
             <h2 class="logo-text">SchoolPass ERP</h2>
         </div>
         <button class="mobile-menu-btn" aria-label="Toggle navigation">
-        <i class="bi bi-list"></i>
-           </button>
+            <i class="bi bi-list"></i>
+        </button>
            
-        <nav class="topbar-nav" id="mainNavigation"> <ul>
-                <li><a href="index.html" class="active"><i class="bi bi-house"></i> Overview</a></li>
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html"><i class="bi bi-house"></i> Overview</a></li>
                 <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
                 <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
-                <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
+                <li><a href="personnel.html" class="active"><i class="bi bi-people"></i> Personnel</a></li>
                 <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
                 <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
                 <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
             </ul>
-             </nav>
-            <div class="user-nav">
-                <div class="dropdown">
+        </nav>
+        
+        <div class="user-nav">
+            <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="user-avatar">
                         <img src="/Veritas/Images/ig.png" alt="User">
@@ -46,129 +195,126 @@
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
                 </ul>
-                </div>
             </div>
-           
+        </div>
     </header>
-
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Hero Section -->
-        <div class="hero-section">
+       <div class="hero-section">
             <div class="hero-content">
                 <h2 class="hero-title">Personnel Management</h2>
                 <p class="hero-description">Manage staff records, payroll, and performance.</p>
                 <div class="hero-actions">
-                    <button class="btn btn-primary"><i class="bi bi-plus"></i> Add New Staff</button>
-                    <button class="btn btn-outline"><i class="bi bi-file-earmark-text"></i> Generate Report</button>
+                    <button class="btn btn-primary"  onclick="window.location.href='pn_add_staff.html'"><i class="bi bi-plus" ></i> Add New Staff</button>
+                    <button class="btn btn-outline" onclick="window.location.href='pn_appraisal_reports.html'"><i class="bi bi-file-earmark-text"></i> Generate Report</button>
                 </div>
             </div>
         </div>
 
         <!-- Stats Grid -->
         <div class="stats-grid">
-            <div class="card card-success">
-                <div class="card-header">
-                    <span class="card-title">Total Staff</span>
-                    <div class="card-icon"><i class="bi bi-person"></i></div>
-                </div>
-                <div class="card-body">
-                    <div class="card-value">85</div>
-                    <p class="card-description">Active staff members</p>
-                    <div class="card-trend trend-positive">+2 from last month</div>
-                </div>
+            <div class="stat-card">
+                <div class="icon"><i class="bi bi-person"></i></div>
+                <div class="value">85</div>
+                <div class="title">Total Staff</div>
+                <div class="trend trend-positive">+2 from last month</div>
             </div>
-            <div class="card card-accent">
-                <div class="card-header">
-                    <span class="card-title">Payroll Processed</span>
-                    <div class="card-icon"><i class="bi bi-currency-exchange"></i></div>
-                </div>
-                <div class="card-body">
-                    <div class="card-value">₦4.8M</div>
-                    <p class="card-description">This month</p>
-                </div>
+            <div class="stat-card">
+                <div class="icon"><i class="bi bi-currency-exchange"></i></div>
+                <div class="value">₦4.8M</div>
+                <div class="title">Payroll Processed</div>
+                <div class="title">This month</div>
             </div>
-            <div class="card card-warning">
-                <div class="card-header">
-                    <span class="card-title">Pending Leave Requests</span>
-                    <div class="card-icon"><i class="bi bi-exclamation-circle"></i></div>
-                </div>
-                <div class="card-body">
-                    <div class="card-value">7</div>
-                    <p class="card-description">Awaiting approval</p>
-                </div>
+            <div class="stat-card">
+                <div class="icon"><i class="bi bi-exclamation-circle"></i></div>
+                <div class="value">7</div>
+                <div class="title">Pending Leave Requests</div>
+                <div class="title">Awaiting approval</div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">Appraisals Due</span>
-                    <div class="card-icon"><i class="bi bi-check-square"></i></div>
-                </div>
-                <div class="card-body">
-                    <div class="card-value">15</div>
-                    <p class="card-description">This quarter</p>
-                </div>
+            <div class="stat-card">
+                <div class="icon"><i class="bi bi-check-square"></i></div>
+                <div class="value">15</div>
+                <div class="title">Appraisals Due</div>
+                <div class="title">This quarter</div>
             </div>
         </div>
 
         <!-- Content Grid -->
         <div class="content-grid">
             <!-- Staff Records -->
-            <div class="card">
+            <div class="feature-card">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-person"></i> Staff Records</h3>
-                    <p class="card-description">Manage staff profiles and information</p>
+                    <h3><i class="bi bi-person"></i> Staff Records</h3>
+                    <p>Manage staff profiles and information</p>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-eye"></i> View Staff</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-plus"></i> Add New Staff</button>
+                    <button class="btn btn-outline-primary" onclick="window.location.href='pn_staff_directory.html'">
+                        <i class="bi bi-eye"></i> View Staff Directory
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="window.location.href='pn_add_staff.html'">
+                        <i class="bi bi-plus"></i> Add New Staff
+                    </button>
                 </div>
             </div>
 
             <!-- Leave Management -->
-            <div class="card">
+            <div class="feature-card">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-calendar-x"></i> Leave Management</h3>
-                    <p class="card-description">Track staff leave applications</p>
+                    <h3><i class="bi bi-calendar-x"></i> Leave Management</h3>
+                    <p>Track staff leave applications</p>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-list-check"></i> Leave Applications</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-file-text"></i> Leave Balance</button>
+                    <button class="btn btn-outline-primary" onclick="window.location.href='pn_leave_applications.html'">
+                        <i class="bi bi-list-check"></i> Leave Applications
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="window.location.href='pn_leave_balance.html'">
+                        <i class="bi bi-file-text"></i> Leave Balance
+                    </button>
                 </div>
             </div>
 
             <!-- Payroll -->
-            <div class="card">
+            <div class="feature-card">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-currency-exchange"></i> Payroll</h3>
-                    <p class="card-description">Manage staff salaries and payments</p>
+                    <h3><i class="bi bi-currency-exchange"></i> Payroll</h3>
+                    <p>Manage staff salaries and payments</p>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-calculator"></i> Process Payroll</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-file-earmark-text"></i> Payslips</button>
+                    <button class="btn btn-outline-primary" onclick="window.location.href='pn_process_payroll.html'">
+                        <i class="bi bi-calculator"></i> Process Payroll
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="window.location.href='pn_payslips.html'">
+                        <i class="bi bi-file-earmark-text"></i> Payslips
+                    </button>
                 </div>
             </div>
 
             <!-- Performance Appraisal -->
-            <div class="card">
+            <div class="feature-card">
                 <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-check-square"></i> Performance Appraisal</h3>
-                    <p class="card-description">Conduct staff performance reviews</p>
+                    <h3><i class="bi bi-check-square"></i> Performance Appraisal</h3>
+                    <p>Conduct staff performance reviews</p>
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-file-text"></i> Appraisal Forms</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-file-earmark-text"></i> Reports</button>
+                    <button class="btn btn-outline-primary" onclick="window.location.href='pn_appraisal_forms.html'">
+                        <i class="bi bi-file-text"></i> Appraisal Forms
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="window.location.href='pn_appraisal_reports.html'">
+                        <i class="bi bi-file-earmark-text"></i> Reports
+                    </button>
                 </div>
             </div>
         </div>
     </main>
     <br> <br>
-      <!-- Footer -->
+    <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-content">
             <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
         </div>
     </footer>
-    <script src="main.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
