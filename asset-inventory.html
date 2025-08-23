@@ -414,6 +414,147 @@
             color: #dc3545;
         }
 
+        /* Form Styles */
+        .form-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .form-control:focus {
+            border-color: #49c5b6;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(73, 197, 182, 0.25);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            background-color: #fff;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            outline: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-dialog {
+            position: relative;
+            width: auto;
+            margin: 0.5rem;
+            pointer-events: none;
+            max-width: 500px;
+            margin: 1.75rem auto;
+        }
+
+        .modal-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            pointer-events: auto;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 0.3rem;
+            outline: 0;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 1rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: calc(0.3rem - 1px);
+            border-top-right-radius: calc(0.3rem - 1px);
+        }
+
+        .modal-title {
+            margin-bottom: 0;
+            line-height: 1.5;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .modal-body {
+            position: relative;
+            flex: 1 1 auto;
+            padding: 1rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0.75rem;
+            border-top: 1px solid #dee2e6;
+            border-bottom-right-radius: calc(0.3rem - 1px);
+            border-bottom-left-radius: calc(0.3rem - 1px);
+        }
+
+        .modal-footer > * {
+            margin: 0.25rem;
+        }
+
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #000;
+            text-shadow: 0 1px 0 #fff;
+            opacity: 0.5;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            opacity: 0.75;
+        }
+
         /* Footer Styles */
         .site-footer {
             background-color: #0E4329;
@@ -552,8 +693,8 @@
                 <h2 class="hero-title">Asset & Inventory Management</h2>
                 <p class="hero-description">Track and manage school assets and resources separately.</p>
                 <div class="hero-actions">
-                    <button class="btn btn-primary"><i class="bi bi-plus"></i> Add New Asset</button>
-                    <button class="btn btn-primary"><i class="bi bi-plus"></i> Add Inventory Item</button>
+                    <button class="btn btn-primary" onclick="openModal('assetModal')"><i class="bi bi-plus"></i> Add New Asset</button>
+                    <button class="btn btn-primary" onclick="openModal('inventoryModal')"><i class="bi bi-plus"></i> Add Inventory Item</button>
                     <button class="btn btn-outline"><i class="bi bi-file-earmark-text"></i> Generate Report</button>
                 </div>
             </div>
@@ -1153,6 +1294,118 @@
         </div>
     </main>
 
+    <!-- Add Asset Modal -->
+    <div id="assetModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Asset</h5>
+                    <button type="button" class="close" onclick="closeModal('assetModal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="assetForm">
+                        <div class="form-group">
+                            <label for="assetName" class="form-label">Asset Name</label>
+                            <input type="text" class="form-control" id="assetName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetCategory" class="form-label">Category</label>
+                            <select class="form-select" id="assetCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="IT Equipment">IT Equipment</option>
+                                <option value="Buildings & Facilities">Buildings & Facilities</option>
+                                <option value="Transportation">Transportation</option>
+                                <option value="Furniture">Furniture</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="assetValue" class="form-label">Value (₦)</label>
+                            <input type="number" class="form-control" id="assetValue" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="purchaseDate" class="form-label">Purchase Date</label>
+                            <input type="date" class="form-control" id="purchaseDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="condition" class="form-label">Condition</label>
+                            <select class="form-select" id="condition" required>
+                                <option value="">Select Condition</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Good">Good</option>
+                                <option value="Fair">Fair</option>
+                                <option value="Poor">Poor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="depreciation" class="form-label">Depreciation (%)</label>
+                            <input type="number" class="form-control" id="depreciation" min="0" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="location" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('assetModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addAsset()">Add Asset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Inventory Modal -->
+    <div id="inventoryModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Inventory Item</h5>
+                    <button type="button" class="close" onclick="closeModal('inventoryModal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="inventoryForm">
+                        <div class="form-group">
+                            <label for="itemName" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" id="itemName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemCategory" class="form-label">Category</label>
+                            <select class="form-select" id="itemCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="Stationery">Stationery</option>
+                                <option value="Educational Materials">Educational Materials</option>
+                                <option value="Science Equipment">Science Equipment</option>
+                                <option value="Janitorial">Janitorial</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="unitPrice" class="form-label">Unit Price (₦)</label>
+                            <input type="number" class="form-control" id="unitPrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier" class="form-label">Supplier</label>
+                            <input type="text" class="form-control" id="supplier">
+                        </div>
+                        <div class="form-group">
+                            <label for="minStock" class="form-label">Minimum Stock Level</label>
+                            <input type="number" class="form-control" id="minStock" min="1" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('inventoryModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addInventoryItem()">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-content">
@@ -1191,6 +1444,55 @@
                 mainNavigation.classList.toggle('active');
             });
         });
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.getElementById(modalId + 'Form').reset();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => form.reset());
+            }
+        }
+
+        // Add asset function
+        function addAsset() {
+            const assetName = document.getElementById('assetName').value;
+            const assetCategory = document.getElementById('assetCategory').value;
+            const assetValue = document.getElementById('assetValue').value;
+            
+            if (assetName && assetCategory && assetValue) {
+                alert(`Asset "${assetName}" added successfully!`);
+                closeModal('assetModal');
+                // Here you would typically send the data to your backend
+            } else {
+                alert('Please fill in all required fields');
+            }
+        }
+
+        // Add inventory item function
+        function addInventoryItem() {
+            const itemName = document.getElementById('itemName').value;
+            const itemCategory = document.getElementById('itemCategory').value;
+            const quantity = document.getElementById('quantity').value;
+            
+            if (itemName && itemCategory && quantity) {
+                alert(`Inventory item "${itemName}" added successfully!`);
+                closeModal('inventoryModal');
+                // Here you would typically send the data to your backend
+            } else {
+                alert('Please fill in all required fields');
+            }
+        }
     </script>
 </body>
 </html>
