@@ -3,12 +3,504 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SchoolPass ERP - Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SchoolPass ERP - Asset & Inventory Management</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>  
-    
-      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Top Header Navigation */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #0E4329;
+            color: #333;
+            padding: 0 20px;
+            height: 70px;
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .logo-text {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #49c5b6;
+        }
+
+        /* Navigation */
+        .topbar-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .topbar-nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .topbar-nav li {
+            margin: 0 5px;
+        }
+
+        .topbar-nav a {
+            color: whitesmoke;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease-in-out;
+            font-size: 15px;
+        }
+
+        .topbar-nav a:hover {
+            background-color: #f8f9fa;
+            color: yellowgreen;
+        }
+
+        .topbar-nav a.active {
+            background-color: whitesmoke;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .topbar-nav i {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: whitesmoke;
+            cursor: pointer;
+            padding: 10px;
+            margin-left: 15px;
+        }
+
+        /* User Navigation */
+        .user-nav {
+            margin-left: 15px;
+            display: flex;
+            color: #49c5b6;
+        }
+
+        .user-nav .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            background-color: #f0f2f5;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #e0e0e0;
+        }
+
+        .user-nav .dropdown-toggle:hover {
+            background-color: #e2e6ea;
+            color: #1a1a1a;
+        }
+
+        .user-nav .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #49c5b6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .user-nav .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-nav .user-name {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 0;
+            padding: 30px;
+            background-color: #eff1f1;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #000, #49c5b6);
+            color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            background-color: #49c5b6;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #49c5b6;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #3aa89c;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #49c5b6;
+            border: 1px solid #49c5b6;
+        }
+
+        .btn-outline:hover {
+            background-color: #f8f9fa;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .w-full {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        /* Card Styles */
+        .card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.2s ease-in-out;
+            background: linear-gradient(to bottom right, #fff, #f8f9fa);
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .card-success {
+            border-color: #28a745;
+            background: linear-gradient(to bottom right, #f0fff4, #e6ffed);
+        }
+
+        .card-accent {
+            border-color: #17a2b8;
+            background: linear-gradient(to bottom right, #e6fafa, #d0f5f5);
+        }
+
+        .card-warning {
+            border-color: #ffc107;
+            background: linear-gradient(to bottom right, #fff8e6, #fff0c2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .card-icon {
+            padding: 8px;
+            border-radius: 8px;
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .card-icon i {
+            font-size: 16px;
+        }
+
+        .card-success .card-icon {
+            background-color: rgba(40,167,69,0.1);
+            color: #28a745;
+        }
+
+        .card-accent .card-icon {
+            background-color: rgba(23,162,184,0.1);
+            color: #17a2b8;
+        }
+
+        .card-warning .card-icon {
+            background-color: rgba(255,193,7,0.1);
+            color: #ffc107;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 8px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            flex: 1;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid #49c5b6;
+            color: #49c5b6;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: rgba(73, 197, 182, 0.1);
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .badge {
+            padding: 0.35rem 0.65rem;
+            border-radius: 50rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background-color: rgba(40,167,69,0.2);
+            color: #28a745;
+        }
+
+        .badge-warning {
+            background-color: rgba(255,193,7,0.2);
+            color: #ffc107;
+        }
+
+        .badge-danger {
+            background-color: rgba(220,53,69,0.2);
+            color: #dc3545;
+        }
+
+        /* Footer Styles */
+        .site-footer {
+            background-color: #0E4329;
+            color: whitesmoke;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content p {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .veritas-link {
+            color: #49c5b6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .veritas-link:hover {
+            color: #3aa89c;
+            text-decoration: underline;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .topbar-nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: #0E4329;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+                max-height: calc(100vh - 70px);
+                overflow-y: auto;
+            }
+            
+            .topbar-nav.active {
+                transform: translateY(0);
+            }
+            
+            .topbar-nav ul {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .topbar-nav li {
+                margin: 0.5rem 0;
+                width: 100%;
+            }
+
+            .topbar-nav a {
+                padding: 0.75rem 0;
+                border-radius: 0;
+                border-bottom: 1px solid #eee;
+                color: whitesmoke;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Top Header Navigation -->
@@ -17,21 +509,23 @@
             <h2 class="logo-text">SchoolPass ERP</h2>
         </div>
         <button class="mobile-menu-btn" aria-label="Toggle navigation">
-        <i class="bi bi-list"></i>
-           </button>
+            <i class="bi bi-list"></i>
+        </button>
            
-        <nav class="topbar-nav" id="mainNavigation"> <ul>
-                <li><a href="index.html" class="active"><i class="bi bi-house"></i> Overview</a></li>
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html"><i class="bi bi-house"></i> Overview</a></li>
                 <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
                 <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
                 <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
-                <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
+                <li><a href="asset-inventory.html" class="active"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
                 <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
                 <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
             </ul>
-             </nav>
-            <div class="user-nav">
-                <div class="dropdown">
+        </nav>
+        
+        <div class="user-nav">
+            <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="user-avatar">
                         <img src="/Veritas/Images/ig.png" alt="User">
@@ -46,11 +540,9 @@
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
                 </ul>
-                </div>
             </div>
-           
+        </div>
     </header>
-
 
     <!-- Main Content -->
     <main class="main-content">
@@ -58,116 +550,647 @@
         <div class="hero-section">
             <div class="hero-content">
                 <h2 class="hero-title">Asset & Inventory Management</h2>
-                <p class="hero-description">Track and manage school assets and resources.</p>
+                <p class="hero-description">Track and manage school assets and resources separately.</p>
                 <div class="hero-actions">
-                    <button class="btn btn-primary"><i class="bi bi-plus"></i> Add New Item</button>
-                    <button class="btn btn-outline"><i class="bi bi-file-earmark-text"></i> Generate Inventory Report</button>
+                    <button class="btn btn-primary"><i class="bi bi-plus"></i> Add New Asset</button>
+                    <button class="btn btn-primary"><i class="bi bi-plus"></i> Add Inventory Item</button>
+                    <button class="btn btn-outline"><i class="bi bi-file-earmark-text"></i> Generate Report</button>
                 </div>
             </div>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="card card-success">
-                <div class="card-header">
-                    <span class="card-title">Total Assets</span>
-                    <div class="card-icon"><i class="bi bi-box"></i></div>
+        <!-- Tabs for Asset/Inventory Selection -->
+        <div class="tabs">
+            <div class="tab active" data-tab="assets">Assets Management</div>
+            <div class="tab" data-tab="inventory">Inventory Management</div>
+            <div class="tab" data-tab="library">Library</div>
+            <div class="tab" data-tab="hostel">Hostel</div>
+            <div class="tab" data-tab="maintenance">Maintenance</div>
+        </div>
+
+        <!-- Assets Section -->
+        <div id="assets-section" class="tab-content">
+            <!-- Stats Grid for Assets -->
+            <div class="stats-grid">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <span class="card-title">Total Assets Value</span>
+                        <div class="card-icon"><i class="bi bi-currency-dollar"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">₦12,450,800</div>
+                        <p class="card-description">Current valuation</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="card-value">1,450</div>
-                    <p class="card-description">Registered assets</p>
+                <div class="card card-accent">
+                    <div class="card-header">
+                        <span class="card-title">IT Equipment</span>
+                        <div class="card-icon"><i class="bi bi-laptop"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">142</div>
+                        <p class="card-description">Computers & devices</p>
+                    </div>
+                </div>
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <span class="card-title">Facilities</span>
+                        <div class="card-icon"><i class="bi bi-building"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">18</div>
+                        <p class="card-description">Buildings & structures</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Transportation</span>
+                        <div class="card-icon"><i class="bi bi-bus-front"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">7</div>
+                        <p class="card-description">Vehicles & buses</p>
+                    </div>
                 </div>
             </div>
-            <div class="card card-accent">
-                <div class="card-header">
-                    <span class="card-title">Library Books</span>
-                    <div class="card-icon"><i class="bi bi-book"></i></div>
-                </div>
-                <div class="card-body">
-                    <div class="card-value">2,300</div>
-                    <p class="card-description">Available in catalog</p>
-                </div>
-            </div>
-            <div class="card card-warning">
-                <div class="card-header">
-                    <span class="card-title">Maintenance Requests</span>
-                    <div class="card-icon"><i class="bi bi-tools"></i></div>
-                </div>
-                <div class="card-body">
-                    <div class="card-value">5</div>
-                    <p class="card-description">Pending</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">Hostel Beds</span>
-                    <div class="card-icon"><i class="bi bi-house"></i></div>
-                </div>
-                <div class="card-body">
-                    <div class="card-value">200</div>
-                    <p class="card-description">Occupied</p>
-                </div>
+
+            <!-- Assets Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asset Name</th>
+                            <th>Category</th>
+                            <th>Current Value</th>
+                            <th>Purchase Date</th>
+                            <th>Condition</th>
+                            <th>Depreciation</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dell Computers (Lab 1)</td>
+                            <td>IT Equipment</td>
+                            <td>₦2,500,000</td>
+                            <td>2023-01-15</td>
+                            <td><span class="badge badge-success">Good</span></td>
+                            <td>12%</td>
+                            <td>Computer Lab 1</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Interactive Whiteboards</td>
+                            <td>IT Equipment</td>
+                            <td>₦1,800,000</td>
+                            <td>2022-09-20</td>
+                            <td><span class="badge badge-success">Excellent</span></td>
+                            <td>8%</td>
+                            <td>Various Classrooms</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Main Building</td>
+                            <td>Buildings & Facilities</td>
+                            <td>₦25,000,000</td>
+                            <td>2015-03-10</td>
+                            <td><span class="badge badge-success">Good</span></td>
+                            <td>2%</td>
+                            <td>Main Campus</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>School Buses (3 units)</td>
+                            <td>Transportation</td>
+                            <td>₦3,500,000</td>
+                            <td>2021-06-12</td>
+                            <td><span class="badge badge-warning">Fair</span></td>
+                            <td>15%</td>
+                            <td>Vehicle Bay</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Content Grid -->
-        <div class="content-grid">
-            <!-- Inventory -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-box-seam"></i> Inventory</h3>
-                    <p class="card-description">Track school assets and supplies</p>
+        <!-- Inventory Section (Hidden by default) -->
+        <div id="inventory-section" class="tab-content" style="display: none;">
+            <!-- Stats Grid for Inventory -->
+            <div class="stats-grid">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <span class="card-title">Total Inventory Items</span>
+                        <div class="card-icon"><i class="bi bi-box-seam"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">2,847</div>
+                        <p class="card-description">Items in stock</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-eye"></i> View Inventory</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-plus"></i> Add New Item</button>
+                <div class="card card-accent">
+                    <div class="card-header">
+                        <span class="card-title">Low Stock Items</span>
+                        <div class="card-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">23</div>
+                        <p class="card-description">Need restocking</p>
+                    </div>
+                </div>
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <span class="card-title">Inventory Value</span>
+                        <div class="card-icon"><i class="bi bi-currency-dollar"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">₦845,300</div>
+                        <p class="card-description">Current stock value</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Categories</span>
+                        <div class="card-icon"><i class="bi bi-tags"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">14</div>
+                        <p class="card-description">Inventory categories</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Library -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-book"></i> Library</h3>
-                    <p class="card-description">Manage school library resources</p>
+            <!-- Inventory Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total Value</th>
+                            <th>Status</th>
+                            <th>Last Restocked</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A4 Paper (ream)</td>
+                            <td>Stationery</td>
+                            <td>120</td>
+                            <td>₦1,200</td>
+                            <td>₦144,000</td>
+                            <td><span class="badge badge-success">In Stock</span></td>
+                            <td>2023-10-15</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Textbooks - Mathematics JSS1</td>
+                            <td>Educational Materials</td>
+                            <td>85</td>
+                            <td>₦2,500</td>
+                            <td>₦212,500</td>
+                            <td><span class="badge badge-success">In Stock</span></td>
+                            <td>2023-09-05</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lab Beakers (pack of 10)</td>
+                            <td>Science Equipment</td>
+                            <td>5</td>
+                            <td>₦8,000</td>
+                            <td>₦40,000</td>
+                            <td><span class="badge badge-warning">Low Stock</span></td>
+                            <td>2023-07-22</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cleaning Supplies</td>
+                            <td>Janitorial</td>
+                            <td>42</td>
+                            <td>₦3,500</td>
+                            <td>₦147,000</td>
+                            <td><span class="badge badge-success">In Stock</span></td>
+                            <td>2023-10-28</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Library Section (Hidden by default) -->
+        <div id="library-section" class="tab-content" style="display: none;">
+            <!-- Stats Grid for Library -->
+            <div class="stats-grid">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <span class="card-title">Total Books</span>
+                        <div class="card-icon"><i class="bi bi-book"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">2,300</div>
+                        <p class="card-description">Books in catalog</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-list"></i> Book Catalogue</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-arrow-left-right"></i> Issue/Return</button>
+                <div class="card card-accent">
+                    <div class="card-header">
+                        <span class="card-title">Books Checked Out</span>
+                        <div class="card-icon"><i class="bi bi-arrow-up"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">187</div>
+                        <p class="card-description">Currently borrowed</p>
+                    </div>
+                </div>
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <span class="card-title">Overdue Books</span>
+                        <div class="card-icon"><i class="bi bi-exclamation-circle"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">23</div>
+                        <p class="card-description">Need to be returned</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">New Arrivals</span>
+                        <div class="card-icon"><i class="bi bi-gift"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">45</div>
+                        <p class="card-description">This month</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Hostel -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-house"></i> Hostel</h3>
-                    <p class="card-description">Manage boarding facilities</p>
+            <!-- Library Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Book Title</th>
+                            <th>Author</th>
+                            <th>ISBN</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Introduction to Physics</td>
+                            <td>J. Williams</td>
+                            <td>978-0123456789</td>
+                            <td>Science</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                            <td>-</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Advanced Mathematics</td>
+                            <td>M. Johnson</td>
+                            <td>978-1234567890</td>
+                            <td>Mathematics</td>
+                            <td><span class="badge badge-warning">Borrowed</span></td>
+                            <td>2023-11-15</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>History of Nigeria</td>
+                            <td>A. Adeyemi</td>
+                            <td>978-2345678901</td>
+                            <td>History</td>
+                            <td><span class="badge badge-danger">Overdue</span></td>
+                            <td>2023-10-28</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>English Literature Guide</td>
+                            <td>P. Clark</td>
+                            <td>978-3456789012</td>
+                            <td>Literature</td>
+                            <td><span class="badge badge-success">Available</span></td>
+                            <td>-</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Hostel Section (Hidden by default) -->
+        <div id="hostel-section" class="tab-content" style="display: none;">
+            <!-- Stats Grid for Hostel -->
+            <div class="stats-grid">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <span class="card-title">Total Beds</span>
+                        <div class="card-icon"><i class="bi bi-house"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">200</div>
+                        <p class="card-description">Available beds</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-person"></i> Bed Allocation</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-file-text"></i> Visitor Logs</button>
+                <div class="card card-accent">
+                    <div class="card-header">
+                        <span class="card-title">Occupied Beds</span>
+                        <div class="card-icon"><i class="bi bi-person"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">185</div>
+                        <p class="card-description">Currently occupied</p>
+                    </div>
+                </div>
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <span class="card-title">Vacant Beds</span>
+                        <div class="card-icon"><i class="bi bi-house-door"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">15</div>
+                        <p class="card-description">Available for allocation</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Maintenance Issues</span>
+                        <div class="card-icon"><i class="bi bi-tools"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">7</div>
+                        <p class="card-description">Pending requests</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Maintenance -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-tools"></i> Maintenance</h3>
-                    <p class="card-description">Track asset maintenance</p>
+            <!-- Hostel Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Block/Room</th>
+                            <th>Bed Number</th>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Status</th>
+                            <th>Check-in Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A Block / Room 101</td>
+                            <td>Bed 1</td>
+                            <td>Chinedu Okoro</td>
+                            <td>SS2A</td>
+                            <td><span class="badge badge-success">Occupied</span></td>
+                            <td>2023-09-10</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>A Block / Room 101</td>
+                            <td>Bed 2</td>
+                            <td>Amina Sule</td>
+                            <td>SS2B</td>
+                            <td><span class="badge badge-success">Occupied</span></td>
+                            <td>2023-09-10</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>B Block / Room 205</td>
+                            <td>Bed 3</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td><span class="badge badge-warning">Vacant</span></td>
+                            <td>-</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-plus"></i> Assign</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>C Block / Room 312</td>
+                            <td>Bed 1</td>
+                            <td>Emeka Nwankwo</td>
+                            <td>SS3A</td>
+                            <td><span class="badge badge-success">Occupied</span></td>
+                            <td>2023-09-10</td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Maintenance Section (Hidden by default) -->
+        <div id="maintenance-section" class="tab-content" style="display: none;">
+            <!-- Stats Grid for Maintenance -->
+            <div class="stats-grid">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <span class="card-title">Completed Requests</span>
+                        <div class="card-icon"><i class="bi bi-check-circle"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">42</div>
+                        <p class="card-description">This month</p>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-plus"></i> Log Maintenance</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-eye"></i> View History</button>
+                <div class="card card-accent">
+                    <div class="card-header">
+                        <span class="card-title">Pending Requests</span>
+                        <div class="card-icon"><i class="bi bi-clock"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">12</div>
+                        <p class="card-description">Awaiting action</p>
+                    </div>
                 </div>
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <span class="card-title">In Progress</span>
+                        <div class="card-icon"><i class="bi bi-tools"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">8</div>
+                        <p class="card-description">Being addressed</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">High Priority</span>
+                        <div class="card-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">3</div>
+                        <p class="card-description">Urgent issues</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Asset/Item</th>
+                            <th>Issue Type</th>
+                            <th>Reported By</th>
+                            <th>Report Date</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#MT-2023-087</td>
+                            <td>Science Lab AC Unit</td>
+                            <td>Electrical</td>
+                            <td>Dr. Okafor</td>
+                            <td>2023-10-25</td>
+                            <td><span class="badge badge-warning">In Progress</span></td>
+                            <td><span class="badge badge-danger">High</span></td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#MT-2023-086</td>
+                            <td>SS2 Classroom Door</td>
+                            <td>Carpentry</td>
+                            <td>Mr. Adeyemi</td>
+                            <td>2023-10-24</td>
+                            <td><span class="badge badge-warning">Pending</span></td>
+                            <td><span class="badge badge-warning">Medium</span></td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#MT-2023-085</td>
+                            <td>Computer Lab Printer</td>
+                            <td>IT Equipment</td>
+                            <td>Mrs. Chukwu</td>
+                            <td>2023-10-23</td>
+                            <td><span class="badge badge-success">Completed</span></td>
+                            <td><span class="badge badge-warning">Medium</span></td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#MT-2023-084</td>
+                            <td>Hostel B Block Plumbing</td>
+                            <td>Plumbing</td>
+                            <td>Student Rep</td>
+                            <td>2023-10-22</td>
+                            <td><span class="badge badge-warning">In Progress</span></td>
+                            <td><span class="badge badge-danger">High</span></td>
+                            <td>
+                                <button class="btn btn-outline"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-outline"><i class="bi bi-pencil"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
-    <br> <br>
-      <!-- Footer -->
+
+    <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-content">
             <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
         </div>
     </footer>
-    <script src="main.js"></script>
+
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Show relevant content
+                    tabContents.forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    
+                    document.getElementById(`${tabId}-section`).style.display = 'block';
+                });
+            });
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mainNavigation = document.getElementById('mainNavigation');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNavigation.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html>
