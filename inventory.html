@@ -99,6 +99,14 @@
             background-color: rgba(73, 197, 182, 0.1);
         }
         
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
         .form-container {
             background: white;
             border-radius: 8px;
@@ -238,93 +246,6 @@
             opacity: 0.75;
         }
         
-        .subcategory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .subcategory-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-        }
-        
-        .subcategory-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-        }
-        
-        .subcategory-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        .subcategory-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            background-color: rgba(73, 197, 182, 0.1);
-            color: #49c5b6;
-        }
-        
-        .subcategory-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin: 0;
-        }
-        
-        .subcategory-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #333;
-        }
-        
-        .stat-label {
-            font-size: 0.85rem;
-            color: #777;
-        }
-        
-        .detail-view {
-            display: none;
-        }
-        
-        .detail-view.active {
-            display: block;
-        }
-        
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            color: #49c5b6;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .back-button:hover {
-            color: #3aa89c;
-        }
-
         .filter-container {
             display: flex;
             flex-wrap: wrap;
@@ -335,12 +256,12 @@
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-
+        
         .search-input {
             flex: 1 1 300px;
             position: relative;
         }
-
+        
         .search-input i {
             position: absolute;
             left: 1rem;
@@ -348,49 +269,49 @@
             transform: translateY(-50%);
             color: #6c757d;
         }
-
+        
         .search-input input {
             padding-left: 2.5rem;
             width: 100%;
         }
-
+        
         .filter-select {
             min-width: 150px;
         }
-
+        
         .icon-cell {
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
-
+        
         .icon-wrapper {
             padding: 0.5rem;
             border-radius: 0.5rem;
             background-color: rgba(73, 197, 182, 0.1);
             color: #49c5b6;
         }
-
+        
         .trend-positive {
             color: #28a745;
         }
-
+        
         .trend-negative {
             color: #dc3545;
         }
-
+        
         .action-buttons {
             display: flex;
             gap: 0.5rem;
         }
-
+        
         .pagination {
             display: flex;
             justify-content: center;
             gap: 0.5rem;
             margin-top: 1rem;
         }
-
+        
         .pagination button {
             padding: 0.5rem 1rem;
             border: 1px solid #ced4da;
@@ -398,18 +319,18 @@
             cursor: pointer;
             border-radius: 0.25rem;
         }
-
+        
         .pagination button.active {
             background: #49c5b6;
             color: white;
             border-color: #49c5b6;
         }
-
+        
         .pagination button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-
+        
         #editInventoryModal .modal-dialog {
             max-width: 600px;
         }
@@ -432,7 +353,8 @@
                 <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
                 <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
                 <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
-               
+                <li><a href="asset.html"><i class="bi bi-building"></i> Assets</a></li>
+                <li><a href="inventory.html" class="active"><i class="bi bi-box-seam"></i> Inventory</a></li>
                 <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
                 <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
             </ul>
@@ -517,6 +439,16 @@
             </div>
         </div>
 
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('All')">All</div>
+            <div class="tab" onclick="switchTab('Educational Materials')">Educational Materials</div>
+            <div class="tab" onclick="switchTab('Cafeteria Supplies')">Cafeteria Supplies</div>
+            <div class="tab" onclick="switchTab('Uniform & Merchandise')">Uniform & Merchandise</div>
+            <div class="tab" onclick="switchTab('Maintenance')">Maintenance</div>
+            <div class="tab" onclick="switchTab('Other')">Other</div>
+        </div>
+
         <!-- Filters and Search -->
         <div class="filter-container">
             <div class="search-input">
@@ -524,18 +456,7 @@
                 <input type="text" class="form-control" id="searchTerm" placeholder="Search inventory..." oninput="filterInventory()">
             </div>
             <div class="filter-select">
-            
-                <select class="form-select" id="selectedCategory" onchange="filterInventory()">
-                    <option value="All">All Categories</option>
-                    <option value="Educational Materials">Educational Materials</option>
-                    <option value="Cafeteria Supplies">Cafeteria Supplies</option>
-                    <option value="Uniform & Merchandise">Uniform & Merchandise</option>
-                    <option value="Maintenance">Maintenance</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-            <div class="filter-select">
-               
+                <i class="bi bi-funnel"></i>
                 <select class="form-select" id="selectedStatus" onchange="filterInventory()">
                     <option value="All">All Status</option>
                     <option value="In Stock">In Stock</option>
@@ -546,126 +467,149 @@
             </div>
         </div>
 
-        <!-- Inventory Table -->
-        <div class="table-container">
-            <div class="card-header">
-                <h3 class="card-title">Inventory Items</h3>
-                <p class="card-description">Detailed view of all inventory items with stock levels and status</p>
+        <!-- Tab Content -->
+        <div id="All" class="tab-content active">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">All Inventory Items</h3>
+                    <p class="card-description">Detailed view of all inventory items</p>
+                </div>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Supplier</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-All"></div>
             </div>
-            <table id="inventoryTable">
-                <thead>
-                    <tr>
-                        <th>Item Name</th>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                        <th>Value</th>
-                        <th>Supplier</th>
-                        <th>Expiry Date</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-id="1" data-category="Educational Materials" data-status="In Stock">
-                        <td class="icon-cell">
-                            <div class="icon-wrapper"><i class="bi bi-book"></i></div>
-                            Textbooks (Grade 1-6)
-                        </td>
-                        <td>Educational Materials</td>
-                        <td>1200</td>
-                        <td>₦800,000</td>
-                        <td>Local Publisher</td>
-                        <td>N/A</td>
-                        <td><span class="badge badge-success">In Stock</span></td>
-                        <td class="action-buttons">
-                            <button class="btn btn-outline" onclick="editInventory('1')"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline" onclick="deleteInventory('1')"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr data-id="2" data-category="Cafeteria Supplies" data-status="Low Stock">
-                        <td class="icon-cell">
-                            <div class="icon-wrapper"><i class="bi bi-egg-fried"></i></div>
-                            Rice Bags (50kg)
-                        </td>
-                        <td>Cafeteria Supplies</td>
-                        <td>45</td>
-                        <td>₦450,000</td>
-                        <td>Food Suppliers Inc.</td>
-                        <td>2025-12-31</td>
-                        <td><span class="badge badge-warning">Low Stock</span></td>
-                        <td class="action-buttons">
-                            <button class="btn btn-outline" onclick="editInventory('2')"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline" onclick="deleteInventory('2')"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr data-id="3" data-category="Uniform & Merchandise" data-status="In Stock">
-                        <td class="icon-cell">
-                            <div class="icon-wrapper"><i class="bi bi-person-standing"></i></div>
-                            School Uniforms (M)
-                        </td>
-                        <td>Uniform & Merchandise</td>
-                        <td>300</td>
-                        <td>₦300,000</td>
-                        <td>Tailor Co.</td>
-                        <td>N/A</td>
-                        <td><span class="badge badge-success">In Stock</span></td>
-                        <td class="action-buttons">
-                            <button class="btn btn-outline" onclick="editInventory('3')"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline" onclick="deleteInventory('3')"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr data-id="4" data-category="Maintenance" data-status="Out of Stock">
-                        <td class="icon-cell">
-                            <div class="icon-wrapper"><i class="bi bi-tools"></i></div>
-                            Cleaning Supplies
-                        </td>
-                        <td>Maintenance</td>
-                        <td>0</td>
-                        <td>₦0</td>
-                        <td>Janitorial Services</td>
-                        <td>2024-06-30</td>
-                        <td><span class="badge badge-danger">Out of Stock</span></td>
-                        <td class="action-buttons">
-                            <button class="btn btn-outline" onclick="editInventory('4')"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline" onclick="deleteInventory('4')"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr data-id="5" data-category="Educational Materials" data-status="Expired">
-                        <td class="icon-cell">
-                            <div class="icon-wrapper"><i class="bi bi-book"></i></div>
-                            Old Lab Chemicals
-                        </td>
-                        <td>Educational Materials</td>
-                        <td>50</td>
-                        <td>₦100,000</td>
-                        <td>Chem Lab Suppliers</td>
-                        <td>2024-01-01</td>
-                        <td><span class="badge badge-danger">Expired</span></td>
-                        <td class="action-buttons">
-                            <button class="btn btn-outline" onclick="editInventory('5')"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline" onclick="deleteInventory('5')"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr data-id="6" data-category="Cafeteria Supplies" data-status="In Stock">
-                        <td class="icon-cell">
-                            <div class="icon-wrapper"><i class="bi bi-egg-fried"></i></div>
-                            Beverages
-                        </td>
-                        <td>Cafeteria Supplies</td>
-                        <td>500</td>
-                        <td>₦250,000</td>
-                        <td>Beverage Dist.</td>
-                        <td>2026-03-15</td>
-                        <td><span class="badge badge-success">In Stock</span></td>
-                        <td class="action-buttons">
-                            <button class="btn btn-outline" onclick="editInventory('6')"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline" onclick="deleteInventory('6')"><i class="bi bi-trash"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="pagination" id="pagination">
-                <!-- Pagination buttons will be generated here -->
+        </div>
+        <div id="Educational Materials" class="tab-content">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">Educational Materials</h3>
+                    <p class="card-description">Textbooks, lab equipment, and other learning resources</p>
+                </div>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Supplier</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-Educational Materials"></div>
+            </div>
+        </div>
+        <div id="Cafeteria Supplies" class="tab-content">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">Cafeteria Supplies</h3>
+                    <p class="card-description">Food and beverage supplies</p>
+                </div>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Supplier</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-Cafeteria Supplies"></div>
+            </div>
+        </div>
+        <div id="Uniform & Merchandise" class="tab-content">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">Uniform & Merchandise</h3>
+                    <p class="card-description">School uniforms and branded items</p>
+                </div>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Supplier</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-Uniform & Merchandise"></div>
+            </div>
+        </div>
+        <div id="Maintenance" class="tab-content">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">Maintenance</h3>
+                    <p class="card-description">Cleaning and maintenance supplies</p>
+                </div>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Supplier</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-Maintenance"></div>
+            </div>
+        </div>
+        <div id="Other" class="tab-content">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">Other Inventory</h3>
+                    <p class="card-description">Miscellaneous inventory items</p>
+                </div>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Supplier</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-Other"></div>
             </div>
         </div>
     </main>
@@ -812,7 +756,13 @@
         ];
 
         const itemsPerPage = 5;
-        let currentPage = 1;
+        let currentPage = {};
+        let currentTab = 'All';
+
+        // Initialize currentPage for each tab
+        ['All', 'Educational Materials', 'Cafeteria Supplies', 'Uniform & Merchandise', 'Maintenance', 'Other'].forEach(tab => {
+            currentPage[tab] = 1;
+        });
 
         // Modal functions
         function openModal(modalId) {
@@ -848,7 +798,7 @@
                 };
                 inventory.push(newItem);
                 closeModal('addInventoryModal');
-                filterInventory(); // Refresh table
+                switchTab(newItem.category); // Switch to the category of the new item
                 alert('Inventory item added successfully!');
             } else {
                 form.reportValidity();
@@ -877,10 +827,11 @@
                 const id = document.getElementById('editItemId').value;
                 const index = inventory.findIndex(i => i.id === id);
                 if (index !== -1) {
+                    const newCategory = document.getElementById('editItemCategory').value;
                     inventory[index] = {
                         id,
                         name: document.getElementById('editItemName').value,
-                        category: document.getElementById('editItemCategory').value,
+                        category: newCategory,
                         quantity: parseInt(document.getElementById('editQuantity').value),
                         value: parseFloat(document.getElementById('editItemValue').value),
                         supplier: document.getElementById('editSupplier').value,
@@ -888,7 +839,7 @@
                         status: document.getElementById('editStatus').value
                     };
                     closeModal('editInventoryModal');
-                    filterInventory(); // Refresh table
+                    switchTab(newCategory); // Switch to the updated category
                     alert('Inventory item updated successfully!');
                 }
             } else {
@@ -899,54 +850,67 @@
         // Delete inventory
         function deleteInventory(id) {
             if (confirm('Are you sure you want to delete this inventory item?')) {
+                const item = inventory.find(i => i.id === id);
                 inventory = inventory.filter(i => i.id !== id);
-                filterInventory(); // Refresh table
+                switchTab(item.category); // Refresh the current tab
                 alert('Inventory item deleted successfully!');
             }
+        }
+
+        // Switch tabs
+        function switchTab(category) {
+            currentTab = category;
+            currentPage[category] = 1; // Reset to first page when switching tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.toggle('active', tab.textContent === category);
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.toggle('active', content.id === category);
+            });
+            filterInventory();
         }
 
         // Filter and pagination
         function filterInventory() {
             const searchTerm = document.getElementById('searchTerm').value.toLowerCase();
-            const selectedCategory = document.getElementById('selectedCategory').value;
             const selectedStatus = document.getElementById('selectedStatus').value;
 
             let filtered = inventory.filter(item => {
                 const matchesSearch = item.name.toLowerCase().includes(searchTerm) || item.supplier.toLowerCase().includes(searchTerm);
-                const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
+                const matchesCategory = currentTab === 'All' || item.category === currentTab;
                 const matchesStatus = selectedStatus === 'All' || item.status === selectedStatus;
                 return matchesSearch && matchesCategory && matchesStatus;
             });
 
-            renderTable(filtered);
-            renderPagination(filtered.length);
+            renderTable(currentTab, filtered);
+            renderPagination(currentTab, filtered.length);
         }
 
-        function renderTable(filteredInventory) {
-            const tbody = document.querySelector('#inventoryTable tbody');
+        function renderTable(category, filteredItems) {
+            const tbody = document.querySelector(`#${category.replace(/ & /g, '\\ ').replace(/ /g, '\\ ')} .inventory-table tbody`);
             tbody.innerHTML = '';
 
-            const start = (currentPage - 1) * itemsPerPage;
+            const start = (currentPage[category] - 1) * itemsPerPage;
             const end = start + itemsPerPage;
-            const paginated = filteredInventory.slice(start, end);
+            const paginated = filteredItems.slice(start, end);
 
             paginated.forEach(item => {
                 const row = document.createElement('tr');
                 row.dataset.id = item.id;
                 row.dataset.category = item.category;
-                row.dataset.status = item.status;
 
                 let iconClass = 'bi bi-box-seam';
                 if (item.category === 'Educational Materials') iconClass = 'bi bi-book';
-                if (item.category === 'Cafeteria Supplies') iconClass = 'bi bi-egg-fried';
-                if (item.category === 'Uniform & Merchandise') iconClass = 'bi bi-person-standing';
+                if (item.category === 'Cafeteria Supplies') iconClass = 'bi bi-cup-straw';
+                if (item.category === 'Uniform & Merchandise') iconClass = 'bi bi-person-square';
                 if (item.category === 'Maintenance') iconClass = 'bi bi-tools';
+                if (item.category === 'Other') iconClass = 'bi bi-box';
 
                 let statusClass = 'badge-success';
                 if (item.status === 'In Stock') statusClass = 'badge-success';
                 if (item.status === 'Low Stock') statusClass = 'badge-warning';
                 if (item.status === 'Out of Stock') statusClass = 'badge-danger';
-                if (item.status === 'Expired') statusClass = 'badge-danger';
+                if (item.status === 'Expired') statusClass = 'badge-muted';
 
                 row.innerHTML = `
                     <td class="icon-cell">
@@ -954,7 +918,7 @@
                         ${item.name}
                     </td>
                     <td>${item.category}</td>
-                    <td>${item.quantity}</td>
+                    <td>${item.quantity.toLocaleString()}</td>
                     <td>₦${item.value.toLocaleString()}</td>
                     <td>${item.supplier}</td>
                     <td>${item.expiryDate}</td>
@@ -968,17 +932,17 @@
             });
         }
 
-        function renderPagination(totalItems) {
-            const pagination = document.getElementById('pagination');
+        function renderPagination(category, totalItems) {
+            const pagination = document.getElementById(`pagination-${category.replace(/ & /g, ' ').replace(/ /g, '-')}`);
             pagination.innerHTML = '';
             const totalPages = Math.ceil(totalItems / itemsPerPage);
 
             for (let i = 1; i <= totalPages; i++) {
                 const btn = document.createElement('button');
                 btn.textContent = i;
-                btn.classList.toggle('active', i === currentPage);
+                btn.classList.toggle('active', i === currentPage[category]);
                 btn.onclick = () => {
-                    currentPage = i;
+                    currentPage[category] = i;
                     filterInventory();
                 };
                 pagination.appendChild(btn);
