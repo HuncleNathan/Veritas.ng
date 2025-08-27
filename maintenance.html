@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolPass ERP - Maintenance Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Reusing your existing styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .badge {
+            padding: 0.35rem 0.65rem;
+            border-radius: 50rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-success {
+            background-color: rgba(40,167,69,0.2);
+            color: #28a745;
+        }
+        
+        .badge-warning {
+            background-color: rgba(255,193,7,0.2);
+            color: #ffc107;
+        }
+        
+        .badge-danger {
+            background-color: rgba(220,53,69,0.2);
+            color: #dc3545;
+        }
+        
+        .badge-info {
+            background-color: rgba(23,162,184,0.2);
+            color: #17a2b8;
+        }
+        
+        .badge-muted {
+            background-color: rgba(108,117,125,0.2);
+            color: #6c757d;
+        }
+        
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            flex: 1;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid #49c5b6;
+            color: #49c5b6;
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: rgba(73, 197, 182, 0.1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        
+        .form-control:focus {
+            border-color: #49c5b6;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(73, 197, 182, 0.25);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            background-color: #fff;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            outline: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-dialog {
+            position: relative;
+            width: auto;
+            margin: 0.5rem;
+            pointer-events: none;
+            max-width: 500px;
+            margin: 1.75rem auto;
+        }
+        
+        .modal-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            pointer-events: auto;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 0.3rem;
+            outline: 0;
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 1rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: calc(0.3rem - 1px);
+            border-top-right-radius: calc(0.3rem - 1px);
+        }
+        
+        .modal-title {
+            margin-bottom: 0;
+            line-height: 1.5;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        
+        .modal-body {
+            position: relative;
+            flex: 1 1 auto;
+            padding: 1rem;
+        }
+        
+        .modal-footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0.75rem;
+            border-top: 1px solid #dee2e6;
+            border-bottom-right-radius: calc(0.3rem - 1px);
+            border-bottom-left-radius: calc(0.3rem - 1px);
+        }
+        
+        .modal-footer > * {
+            margin: 0.25rem;
+        }
+        
+        .close {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #000;
+            text-shadow: 0 1px 0 #fff;
+            opacity: 0.5;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            opacity: 0.75;
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .search-input {
+            flex: 1 1 300px;
+            position: relative;
+        }
+        
+        .search-input i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        
+        .search-input input {
+            padding-left: 2.5rem;
+            width: 100%;
+        }
+        
+        .filter-select {
+            min-width: 150px;
+        }
+        
+        .icon-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .icon-wrapper {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            background-color: rgba(73, 197, 182, 0.1);
+            color: #49c5b6;
+        }
+        
+        .trend-positive {
+            color: #28a745;
+        }
+        
+        .trend-negative {
+            color: #dc3545;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ced4da;
+            background: white;
+            cursor: pointer;
+            border-radius: 0.25rem;
+        }
+        
+        .pagination button.active {
+            background: #49c5b6;
+            color: white;
+            border-color: #49c5b6;
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Maintenance specific styles */
+        .priority-high { background-color: rgba(220,53,69,0.1); }
+        .priority-medium { background-color: rgba(255,193,7,0.1); }
+        .priority-low { background-color: rgba(40,167,69,0.1); }
+        
+        .status-badge-pending { background-color: rgba(255,193,7,0.2); color: #ffc107; }
+        .status-badge-inprogress { background-color: rgba(23,162,184,0.2); color: #17a2b8; }
+        .status-badge-completed { background-color: rgba(40,167,69,0.2); color: #28a745; }
+        .status-badge-cancelled { background-color: rgba(108,117,125,0.2); color: #6c757d; }
+    </style>
+</head>
+<body>
+    <!-- Top Header Navigation -->
+    <header class="top-header">
+        <div class="logo">
+            <h2 class="logo-text">SchoolPass ERP</h2>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+        </button>
+        
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html"><i class="bi bi-house"></i> Overview</a></li>
+                <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
+                <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
+                <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
+                <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
+                <li><a href="asset.html"><i class="bi bi-building"></i> Assets</a></li>
+                <li><a href="inventory.html"><i class="bi bi-box-seam"></i> Inventory</a></li>
+                <li><a href="maintenance.html" class="active"><i class="bi bi-tools"></i> Maintenance</a></li>
+                <li><a href="hostel.html"><i class="bi bi-house-door"></i> Hostel</a></li>
+                <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
+                <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+            </ul>
+        </nav>
+        <div class="user-nav">
+            <div class="dropdown">
+                <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="user-avatar">
+                        <img src="/Veritas/Images/ig.png" alt="User">
+                    </div>
+                    <span class="user-name">Welcome, Admin</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
+                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                    <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell mr-2"></i> Notifications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <h2 class="hero-title">Maintenance Management</h2>
+                <p class="hero-description">Track, manage, and resolve all maintenance requests with detailed insights and tools.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="openModal('addMaintenanceModal')"><i class="bi bi-plus"></i> Create New Request</button>
+                    <button class="btn btn-outline"><i class="bi bi-file-earmark-text"></i> Generate Report</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="stats-grid">
+            <div class="card card-success">
+                <div class="card-header">
+                    <span class="card-title">Completed Requests</span>
+                    <div class="card-icon"><i class="bi bi-check-circle"></i></div>
+                </div>
+                <div class="card-body">
+                    <div class="card-value">24</div>
+                    <p class="card-description">This month</p>
+                    <div class="card-trend trend-positive"><i class="bi bi-graph-up"></i> +15% from last month</div>
+                </div>
+            </div>
+            <div class="card card-accent">
+                <div class="card-header">
+                    <span class="card-title">Pending Requests</span>
+                    <div class="card-icon"><i class="bi bi-clock-history"></i></div>
+                </div>
+                <div class="card-body">
+                    <div class="card-value">12</div>
+                    <p class="card-description">Awaiting action</p>
+                </div>
+            </div>
+            <div class="card card-warning">
+                <div class="card-header">
+                    <span class="card-title">In Progress</span>
+                    <div class="card-icon"><i class="bi bi-tools"></i></div>
+                </div>
+                <div class="card-body">
+                    <div class="card-value">8</div>
+                    <p class="card-description">Being addressed</p>
+                </div>
+            </div>
+            <div class="card card-danger">
+                <div class="card-header">
+                    <span class="card-title">Urgent Requests</span>
+                    <div class="card-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                </div>
+                <div class="card-body">
+                    <div class="card-value">3</div>
+                    <p class="card-description">Require immediate attention</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('All')">All</div>
+            <div class="tab" onclick="switchTab('Pending')">Pending</div>
+            <div class="tab" onclick="switchTab('In Progress')">In Progress</div>
+            <div class="tab" onclick="switchTab('Completed')">Completed</div>
+            <div class="tab" onclick="switchTab('Urgent')">Urgent</div>
+        </div>
+
+        <!-- Filters and Search -->
+        <div class="filter-container">
+            <div class="search-input">
+                <i class="bi bi-search"></i>
+                <input type="text" class="form-control" id="searchTerm" placeholder="Search maintenance requests..." oninput="filterMaintenance()">
+            </div>
+            <div class="filter-select">
+                
+                <select class="form-select" id="selectedPriority" onchange="filterMaintenance()">
+                    <option value="All">All Priorities</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+            <div class="filter-select">
+                
+                <select class="form-select" id="selectedLocation" onchange="filterMaintenance()">
+                    <option value="All">All Locations</option>
+                    <option value="Classroom">Classroom</option>
+                    <option value="Laboratory">Laboratory</option>
+                    <option value="Office">Office</option>
+                    <option value="Hostel">Hostel</option>
+                    <option value="Cafeteria">Cafeteria</option>
+                    <option value="Sports Facility">Sports Facility</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="All" class="tab-content active">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">All Maintenance Requests</h3>
+                    <p class="card-description">Detailed view of all maintenance requests</p>
+                </div>
+                <table class="maintenance-table">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Priority</th>
+                            <th>Reported By</th>
+                            <th>Reported Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-All"></div>
+            </div>
+        </div>
+        <div id="Pending" class="tab-content">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">Pending Requests</h3>
+                    <p class="card-description">Requests awaiting action</p>
+                </div>
+                <table class="maintenance-table">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Priority</th>
+                            <th>Reported By</th>
+                            <th>Reported Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-Pending"></div>
+            </div>
+        </div>
+        <div id="In Progress" class="tab-content">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">Requests In Progress</h3>
+                    <p class="card-description">Requests being addressed</p>
+                </div>
+                <table class="maintenance-table">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Priority</th>
+                            <th>Reported By</th>
+                            <th>Reported Date</th>
+                            <th>Assigned To</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-In Progress"></div>
+            </div>
+        </div>
+        <div id="Completed" class="tab-content">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">Completed Requests</h3>
+                    <p class="card-description">Successfully resolved requests</p>
+                </div>
+                <table class="maintenance-table">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Priority</th>
+                            <th>Reported By</th>
+                            <th>Reported Date</th>
+                            <th>Completed Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-Completed"></div>
+            </div>
+        </div>
+        <div id="Urgent" class="tab-content">
+            <div class="table-container">
+                <div class="card-header">
+                    <h3 class="card-title">Urgent Requests</h3>
+                    <p class="card-description">Requests requiring immediate attention</p>
+                </div>
+                <table class="maintenance-table">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Priority</th>
+                            <th>Reported By</th>
+                            <th>Reported Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="pagination" id="pagination-Urgent"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Maintenance Modal -->
+    <div id="addMaintenanceModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Maintenance Request</h5>
+                    <button type="button" class="close" onclick="closeModal('addMaintenanceModal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="addMaintenanceForm">
+                        <div class="form-group">
+                            <label for="requestTitle" class="form-label">Request Title</label>
+                            <input type="text" class="form-control" id="requestTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="requestDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="requestDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="requestLocation" class="form-label">Location</label>
+                            <select class="form-select" id="requestLocation" required>
+                                <option value="">Select Location</option>
+                                <option value="Classroom">Classroom</option>
+                                <option value="Laboratory">Laboratory</option>
+                                <option value="Office">Office</option>
+                                <option value="Hostel">Hostel</option>
+                                <option value="Cafeteria">Cafeteria</option>
+                                <option value="Sports Facility">Sports Facility</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="requestPriority" class="form-label">Priority</label>
+                            <select class="form-select" id="requestPriority" required>
+                                <option value="">Select Priority</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reportedBy" class="form-label">Reported By</label>
+                            <input type="text" class="form-control" id="reportedBy" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('addMaintenanceModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addMaintenance()">Create Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Maintenance Modal -->
+    <div id="editMaintenanceModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Maintenance Request</h5>
+                    <button type="button" class="close" onclick="closeModal('editMaintenanceModal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="editMaintenanceForm">
+                        <input type="hidden" id="editRequestId">
+                        <div class="form-group">
+                            <label for="editRequestTitle" class="form-label">Request Title</label>
+                            <input type="text" class="form-control" id="editRequestTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRequestDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="editRequestDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRequestLocation" class="form-label">Location</label>
+                            <select class="form-select" id="editRequestLocation" required>
+                                <option value="">Select Location</option>
+                                <option value="Classroom">Classroom</option>
+                                <option value="Laboratory">Laboratory</option>
+                                <option value="Office">Office</option>
+                                <option value="Hostel">Hostel</option>
+                                <option value="Cafeteria">Cafeteria</option>
+                                <option value="Sports Facility">Sports Facility</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRequestPriority" class="form-label">Priority</label>
+                            <select class="form-select" id="editRequestPriority" required>
+                                <option value="">Select Priority</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editReportedBy" class="form-label">Reported By</label>
+                            <input type="text" class="form-control" id="editReportedBy" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRequestStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editRequestStatus" required>
+                                <option value="">Select Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editAssignedTo" class="form-label">Assigned To</label>
+                            <input type="text" class="form-control" id="editAssignedTo">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('editMaintenanceModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEditedMaintenance()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data (in a real app, this would come from a backend)
+        let maintenanceRequests = [
+            { id: 'MNT-001', title: 'AC Not Working', description: 'AC in principal office not cooling properly', location: 'Office', priority: 'High', reportedBy: 'Principal', reportedDate: '2023-10-15', status: 'In Progress', assignedTo: 'John Tech' },
+            { id: 'MNT-002', title: 'Leaking Faucet', description: 'Science lab sink faucet leaking', location: 'Laboratory', priority: 'Medium', reportedBy: 'Science Teacher', reportedDate: '2023-10-14', status: 'Pending', assignedTo: '' },
+            { id: 'MNT-003', title: 'Broken Chair', description: 'Chair in classroom 4B is broken', location: 'Classroom', priority: 'Low', reportedBy: 'Class Monitor', reportedDate: '2023-10-13', status: 'Completed', assignedTo: 'Mike Handyman', completedDate: '2023-10-14' },
+            { id: 'MNT-004', title: 'Projector Issues', description: 'Projector in room 202 not displaying properly', location: 'Classroom', priority: 'High', reportedBy: 'Math Teacher', reportedDate: '2023-10-12', status: 'In Progress', assignedTo: 'Tech Support' },
+            { id: 'MNT-005', title: 'Blocked Drain', description: 'Drain in hostel bathroom is blocked', location: 'Hostel', priority: 'High', reportedBy: 'Hostel Warden', reportedDate: '2023-10-11', status: 'Pending', assignedTo: '' },
+            { id: 'MNT-006', title: 'Fence Repair', description: 'School perimeter fence damaged near sports field', location: 'Sports Facility', priority: 'Medium', reportedBy: 'Security Guard', reportedDate: '2023-10-10', status: 'Completed', assignedTo: 'External Contractor', completedDate: '2023-10-12' }
+        ];
+
+        const itemsPerPage = 5;
+        let currentPage = {};
+        let currentTab = 'All';
+
+        // Initialize currentPage for each tab
+        ['All', 'Pending', 'In Progress', 'Completed', 'Urgent'].forEach(tab => {
+            currentPage[tab] = 1;
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            const form = document.getElementById(modalId.replace('Modal', 'Form'));
+            if (form) form.reset();
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeModal(event.target.id);
+            }
+        }
+
+        // Add maintenance request
+        function addMaintenance() {
+            const form = document.getElementById('addMaintenanceForm');
+            if (form.checkValidity()) {
+                const newRequest = {
+                    id: 'MNT-' + (maintenanceRequests.length + 1).toString().padStart(3, '0'),
+                    title: document.getElementById('requestTitle').value,
+                    description: document.getElementById('requestDescription').value,
+                    location: document.getElementById('requestLocation').value,
+                    priority: document.getElementById('requestPriority').value,
+                    reportedBy: document.getElementById('reportedBy').value,
+                    reportedDate: new Date().toISOString().split('T')[0],
+                    status: 'Pending',
+                    assignedTo: ''
+                };
+                maintenanceRequests.push(newRequest);
+                closeModal('addMaintenanceModal');
+                filterMaintenance();
+                alert('Maintenance request created successfully!');
+            } else {
+                form.reportValidity();
+            }
+        }
+
+        // Edit maintenance
+        function editMaintenance(id) {
+            const request = maintenanceRequests.find(r => r.id === id);
+            if (request) {
+                document.getElementById('editRequestId').value = request.id;
+                document.getElementById('editRequestTitle').value = request.title;
+                document.getElementById('editRequestDescription').value = request.description;
+                document.getElementById('editRequestLocation').value = request.location;
+                document.getElementById('editRequestPriority').value = request.priority;
+                document.getElementById('editReportedBy').value = request.reportedBy;
+                document.getElementById('editRequestStatus').value = request.status;
+                document.getElementById('editAssignedTo').value = request.assignedTo || '';
+                openModal('editMaintenanceModal');
+            }
+        }
+
+        function saveEditedMaintenance() {
+            const form = document.getElementById('editMaintenanceForm');
+            if (form.checkValidity()) {
+                const id = document.getElementById('editRequestId').value;
+                const index = maintenanceRequests.findIndex(r => r.id === id);
+                if (index !== -1) {
+                    maintenanceRequests[index] = {
+                        ...maintenanceRequests[index],
+                        title: document.getElementById('editRequestTitle').value,
+                        description: document.getElementById('editRequestDescription').value,
+                        location: document.getElementById('editRequestLocation').value,
+                        priority: document.getElementById('editRequestPriority').value,
+                        reportedBy: document.getElementById('editReportedBy').value,
+                        status: document.getElementById('editRequestStatus').value,
+                        assignedTo: document.getElementById('editAssignedTo').value
+                    };
+                    
+                    // If status changed to completed, add completion date
+                    if (document.getElementById('editRequestStatus').value === 'Completed' && !maintenanceRequests[index].completedDate) {
+                        maintenanceRequests[index].completedDate = new Date().toISOString().split('T')[0];
+                    }
+                    
+                    closeModal('editMaintenanceModal');
+                    filterMaintenance();
+                    alert('Maintenance request updated successfully!');
+                }
+            } else {
+                form.reportValidity();
+            }
+        }
+
+        // Delete maintenance
+        function deleteMaintenance(id) {
+            if (confirm('Are you sure you want to delete this maintenance request?')) {
+                maintenanceRequests = maintenanceRequests.filter(r => r.id !== id);
+                filterMaintenance();
+                alert('Maintenance request deleted successfully!');
+            }
+        }
+
+        // Switch tabs
+        function switchTab(tab) {
+            currentTab = tab;
+            currentPage[tab] = 1; // Reset to first page when switching tabs
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.toggle('active', t.textContent === tab);
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.toggle('active', content.id === tab);
+            });
+            filterMaintenance();
+        }
+
+        // Filter and pagination
+        function filterMaintenance() {
+            const searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            const selectedPriority = document.getElementById('selectedPriority').value;
+            const selectedLocation = document.getElementById('selectedLocation').value;
+
+            let filtered = maintenanceRequests.filter(request => {
+                const matchesSearch = request.title.toLowerCase().includes(searchTerm) || 
+                                     request.description.toLowerCase().includes(searchTerm) ||
+                                     request.id.toLowerCase().includes(searchTerm);
+                const matchesPriority = selectedPriority === 'All' || request.priority === selectedPriority;
+                const matchesLocation = selectedLocation === 'All' || request.location === selectedLocation;
+                
+                // Filter by tab
+                let matchesTab = true;
+                if (currentTab === 'Pending') matchesTab = request.status === 'Pending';
+                if (currentTab === 'In Progress') matchesTab = request.status === 'In Progress';
+                if (currentTab === 'Completed') matchesTab = request.status === 'Completed';
+                if (currentTab === 'Urgent') matchesTab = request.priority === 'High';
+                
+                return matchesSearch && matchesPriority && matchesLocation && matchesTab;
+            });
+
+            renderTable(currentTab, filtered);
+            renderPagination(currentTab, filtered.length);
+        }
+
+        function renderTable(tab, filteredRequests) {
+            const tbody = document.querySelector(`#${tab.replace(/ /g, '\\ ')} .maintenance-table tbody`);
+            tbody.innerHTML = '';
+
+            const start = (currentPage[tab] - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginated = filteredRequests.slice(start, end);
+
+            paginated.forEach(request => {
+                const row = document.createElement('tr');
+                row.dataset.id = request.id;
+                
+                // Add priority class for row highlighting
+                if (request.priority === 'High') row.classList.add('priority-high');
+                if (request.priority === 'Medium') row.classList.add('priority-medium');
+                if (request.priority === 'Low') row.classList.add('priority-low');
+                
+                let iconClass = 'bi bi-tools';
+                if (request.location === 'Classroom') iconClass = 'bi bi-easel';
+                if (request.location === 'Laboratory') iconClass = 'bi bi-flask';
+                if (request.location === 'Office') iconClass = 'bi bi-briefcase';
+                if (request.location === 'Hostel') iconClass = 'bi bi-house-door';
+                if (request.location === 'Cafeteria') iconClass = 'bi bi-cup-straw';
+                if (request.location === 'Sports Facility') iconClass = 'bi bi-trophy';
+
+                let statusClass = 'status-badge-pending';
+                if (request.status === 'In Progress') statusClass = 'status-badge-inprogress';
+                if (request.status === 'Completed') statusClass = 'status-badge-completed';
+                if (request.status === 'Cancelled') statusClass = 'status-badge-cancelled';
+
+                let priorityBadgeClass = 'badge-danger';
+                if (request.priority === 'Medium') priorityBadgeClass = 'badge-warning';
+                if (request.priority === 'Low') priorityBadgeClass = 'badge-success';
+
+                row.innerHTML = `
+                    <td class="icon-cell">
+                        <div class="icon-wrapper"><i class="${iconClass}"></i></div>
+                        ${request.id}
+                    </td>
+                    <td>${request.title}</td>
+                    <td>${request.location}</td>
+                    <td><span class="badge ${priorityBadgeClass}">${request.priority}</span></td>
+                    <td>${request.reportedBy}</td>
+                    <td>${new Date(request.reportedDate).toLocaleDateString()}</td>
+                    ${tab === 'In Progress' ? `<td>${request.assignedTo || 'Not assigned'}</td>` : ''}
+                    ${tab === 'Completed' ? `<td>${request.completedDate ? new Date(request.completedDate).toLocaleDateString() : 'N/A'}</td>` : ''}
+                    <td><span class="badge ${statusClass}">${request.status}</span></td>
+                    <td class="action-buttons">
+                        <button class="btn btn-outline" onclick="editMaintenance('${request.id}')"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-outline" onclick="deleteMaintenance('${request.id}')"><i class="bi bi-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderPagination(tab, totalItems) {
+            const pagination = document.getElementById(`pagination-${tab.replace(/ /g, '-')}`);
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.classList.toggle('active', i === currentPage[tab]);
+                btn.onclick = () => {
+                    currentPage[tab] = i;
+                    filterMaintenance();
+                };
+                pagination.appendChild(btn);
+            }
+        }
+
+        // Initial render
+        filterMaintenance();
+
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mainNavigation = document.getElementById('mainNavigation');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNavigation.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
