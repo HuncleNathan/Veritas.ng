@@ -75,16 +75,6 @@
             color: #dc3545;
         }
         
-        .badge-info {
-            background-color: rgba(23,162,184,0.2);
-            color: #17a2b8;
-        }
-        
-        .badge-muted {
-            background-color: rgba(108,117,125,0.2);
-            color: #6c757d;
-        }
-        
         .tabs {
             display: flex;
             background: white;
@@ -198,194 +188,6 @@
             font-size: 0.85rem;
             color: #777;
         }
-        
-        /* Maintenance and Hostel specific styles */
-        .maintenance-grid, .hostel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-bottom: 30px;
-        }
-        
-        .maintenance-card, .hostel-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-        }
-        
-        .maintenance-card:hover, .hostel-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-        }
-        
-        .maintenance-header, .hostel-header {
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #49c5b6 0%, #3aa89c 100%);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .maintenance-header h3, .hostel-header h3 {
-            margin: 0;
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        
-        .maintenance-icon, .hostel-icon {
-            font-size: 1.8rem;
-        }
-        
-        .maintenance-body, .hostel-body {
-            padding: 1.5rem;
-        }
-        
-        .maintenance-stats, .hostel-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .maintenance-stat, .hostel-stat {
-            text-align: center;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .maintenance-value, .hostel-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 0.25rem;
-        }
-        
-        .maintenance-label, .hostel-label {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-        
-        .progress-container {
-            margin-bottom: 1.5rem;
-        }
-        
-        .progress-title {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: #495057;
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            border-radius: 4px;
-        }
-        
-        .progress-urgent { background: linear-gradient(90deg, #dc3545 0%, #c82333 100%); }
-        .progress-high { background: linear-gradient(90deg, #fd7e14 0%, #e25a10 100%); }
-        .progress-medium { background: linear-gradient(90deg, #ffc107 0%, #e6a800 100%); }
-        .progress-low { background: linear-gradient(90deg, #17a2b8 0%, #138496 100%); }
-        
-        .maintenance-list, .hostel-list {
-            margin-top: 1.5rem;
-        }
-        
-        .maintenance-item, .hostel-item {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .maintenance-item:last-child, .hostel-item:last-child {
-            border-bottom: none;
-        }
-        
-        .maintenance-item-icon, .hostel-item-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            font-size: 1rem;
-        }
-        
-        .maintenance-item-info, .hostel-item-info {
-            flex: 1;
-        }
-        
-        .maintenance-item-title, .hostel-item-title {
-            font-weight: 500;
-            margin-bottom: 0.25rem;
-        }
-        
-        .maintenance-item-desc, .hostel-item-desc {
-            font-size: 0.8rem;
-            color: #6c757d;
-        }
-        
-        .maintenance-item-status, .hostel-item-status {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 50rem;
-        }
-        
-        .status-pending { background: rgba(255,193,7,0.2); color: #ffc107; }
-        .status-in-progress { background: rgba(23,162,184,0.2); color: #17a2b8; }
-        .status-completed { background: rgba(40,167,69,0.2); color: #28a745; }
-        .status-urgent { background: rgba(220,53,69,0.2); color: #dc3545; }
-        
-        .hostel-occupancy {
-            margin-bottom: 1.5rem;
-        }
-        
-        .occupancy-chart {
-            display: flex;
-            height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 0.5rem;
-        }
-        
-        .chart-occupied { background: #49c5b6; }
-        .chart-vacant { background: #e9ecef; }
-        .chart-maintenance { background: #ffc107; }
-        
-        .occupancy-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #6c757d;
-        }
-        
-        .hostel-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .feature-tag {
-            padding: 0.25rem 0.5rem;
-            background: #f8f9fa;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            color: #495057;
-        }
     </style>
 </head>
 <body>
@@ -480,7 +282,7 @@
                         <p class="card-description">Pending requests</p>
                     </div>
                 </div>
-                <!-- Changed IT Equipment to Hostel Management -->
+                <!--  Hostel Management -->
                 <div class="card card-info">
                     <div class="card-header">
                         <span class="card-title">Hostel Management</span>
@@ -489,244 +291,6 @@
                     <div class="card-body">
                         <div class="card-value">4</div>
                         <p class="card-description">Hostels & Dormitories</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Maintenance Overview Section -->
-            <div class="maintenance-grid">
-                <!-- Maintenance Summary Card -->
-                <div class="maintenance-card">
-                    <div class="maintenance-header">
-                        <h3><i class="bi bi-tools me-2"></i> Maintenance Overview</h3>
-                        <div class="maintenance-icon">
-                            <i class="bi bi-clipboard-data"></i>
-                        </div>
-                    </div>
-                    <div class="maintenance-body">
-                        <div class="maintenance-stats">
-                            <div class="maintenance-stat">
-                                <div class="maintenance-value">12</div>
-                                <div class="maintenance-label">Pending</div>
-                            </div>
-                            <div class="maintenance-stat">
-                                <div class="maintenance-value">8</div>
-                                <div class="maintenance-label">In Progress</div>
-                            </div>
-                            <div class="maintenance-stat">
-                                <div class="maintenance-value">24</div>
-                                <div class="maintenance-label">Completed</div>
-                            </div>
-                            <div class="maintenance-stat">
-                                <div class="maintenance-value">3</div>
-                                <div class="maintenance-label">Urgent</div>
-                            </div>
-                        </div>
-                        
-                        <div class="progress-container">
-                            <div class="progress-title">
-                                <span>Completion Rate</span>
-                                <span>68%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill progress-medium" style="width: 68%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="progress-container">
-                            <div class="progress-title">
-                                <span>Urgent Priority</span>
-                                <span>25%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill progress-urgent" style="width: 25%"></div>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-outline w-full mt-3" onclick="window.location.href='maintenance.html'">
-                            <i class="bi bi-eye"></i> View All Maintenance Requests
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Recent Maintenance Requests -->
-                <div class="maintenance-card">
-                    <div class="maintenance-header">
-                        <h3><i class="bi bi-clock-history me-2"></i> Recent Requests</h3>
-                        <div class="maintenance-icon">
-                            <i class="bi bi-list-check"></i>
-                        </div>
-                    </div>
-                    <div class="maintenance-body">
-                        <div class="maintenance-list">
-                            <div class="maintenance-item">
-                                <div class="maintenance-item-icon" style="background: rgba(220,53,69,0.1); color: #dc3545;">
-                                    <i class="bi bi-exclamation-triangle"></i>
-                                </div>
-                                <div class="maintenance-item-info">
-                                    <div class="maintenance-item-title">AC Repair - Admin Block</div>
-                                    <div class="maintenance-item-desc">Submitted: 2 days ago</div>
-                                </div>
-                                <span class="maintenance-item-status status-urgent">Urgent</span>
-                            </div>
-                            
-                            <div class="maintenance-item">
-                                <div class="maintenance-item-icon" style="background: rgba(23,162,184,0.1); color: #17a2b8;">
-                                    <i class="bi bi-tools"></i>
-                                </div>
-                                <div class="maintenance-item-info">
-                                    <div class="maintenance-item-title">Lab Equipment Calibration</div>
-                                    <div class="maintenance-item-desc">Submitted: 5 days ago</div>
-                                </div>
-                                <span class="maintenance-item-status status-in-progress">In Progress</span>
-                            </div>
-                            
-                            <div class="maintenance-item">
-                                <div class="maintenance-item-icon" style="background: rgba(255,193,7,0.1); color: #ffc107;">
-                                    <i class="bi bi-paint-bucket"></i>
-                                </div>
-                                <div class="maintenance-item-info">
-                                    <div class="maintenance-item-title">Classroom Repainting</div>
-                                    <div class="maintenance-item-desc">Submitted: 1 week ago</div>
-                                </div>
-                                <span class="maintenance-item-status status-pending">Pending</span>
-                            </div>
-                            
-                            <div class="maintenance-item">
-                                <div class="maintenance-item-icon" style="background: rgba(40,167,69,0.1); color: #28a745;">
-                                    <i class="bi bi-check-circle"></i>
-                                </div>
-                                <div class="maintenance-item-info">
-                                    <div class="maintenance-item-title">Furniture Repair</div>
-                                    <div class="maintenance-item-desc">Completed: Yesterday</div>
-                                </div>
-                                <span class="maintenance-item-status status-completed">Completed</span>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-primary w-full mt-3" onclick="openModal('addMaintenanceModal')">
-                            <i class="bi bi-plus-circle"></i> Create New Request
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Hostel Management Overview Section -->
-            <div class="hostel-grid">
-                <!-- Hostel Summary Card -->
-                <div class="hostel-card">
-                    <div class="hostel-header">
-                        <h3><i class="bi bi-house-door me-2"></i> Hostel Overview</h3>
-                        <div class="hostel-icon">
-                            <i class="bi bi-building"></i>
-                        </div>
-                    </div>
-                    <div class="hostel-body">
-                        <div class="hostel-stats">
-                            <div class="hostel-stat">
-                                <div class="hostel-value">4</div>
-                                <div class="hostel-label">Total Hostels</div>
-                            </div>
-                            <div class="hostel-stat">
-                                <div class="hostel-value">320</div>
-                                <div class="hostel-label">Total Rooms</div>
-                            </div>
-                            <div class="hostel-stat">
-                                <div class="hostel-value">248</div>
-                                <div class="hostel-label">Occupied</div>
-                            </div>
-                            <div class="hostel-stat">
-                                <div class="hostel-value">72</div>
-                                <div class="hostel-label">Vacant</div>
-                            </div>
-                        </div>
-                        
-                        <div class="hostel-occupancy">
-                            <div class="progress-title">
-                                <span>Overall Occupancy</span>
-                                <span>78%</span>
-                            </div>
-                            <div class="occupancy-chart">
-                                <div class="chart-occupied" style="width: 78%"></div>
-                                <div class="chart-vacant" style="width: 22%"></div>
-                            </div>
-                            <div class="occupancy-labels">
-                                <span>Occupied: 248</span>
-                                <span>Vacant: 72</span>
-                            </div>
-                        </div>
-                        
-                        <div class="hostel-features">
-                            <span class="feature-tag"><i class="bi bi-wifi"></i> WiFi</span>
-                            <span class="feature-tag"><i class="bi bi-droplet"></i> Water Supply</span>
-                            <span class="feature-tag"><i class="bi bi-lightning-charge"></i> 24/7 Power</span>
-                            <span class="feature-tag"><i class="bi bi-shield-check"></i> Security</span>
-                        </div>
-                        
-                        <button class="btn btn-outline w-full mt-3" onclick="window.location.href='hostel.html'">
-                            <i class="bi bi-eye"></i> Manage Hostels
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Hostel Details Card -->
-                <div class="hostel-card">
-                    <div class="hostel-header">
-                        <h3><i class="bi bi-list-check me-2"></i> Hostel Status</h3>
-                        <div class="hostel-icon">
-                            <i class="bi bi-clipboard-data"></i>
-                        </div>
-                    </div>
-                    <div class="hostel-body">
-                        <div class="maintenance-list">
-                            <div class="hostel-item">
-                                <div class="hostel-item-icon" style="background: rgba(73, 197, 182, 0.1); color: #49c5b6;">
-                                    <i class="bi bi-building"></i>
-                                </div>
-                                <div class="hostel-item-info">
-                                    <div class="hostel-item-title">Boys Hostel A</div>
-                                    <div class="hostel-item-desc">Capacity: 100 students | Occupancy: 92%</div>
-                                </div>
-                                <span class="hostel-item-status status-completed">Good</span>
-                            </div>
-                            
-                            <div class="hostel-item">
-                                <div class="hostel-item-icon" style="background: rgba(73, 197, 182, 0.1); color: #49c5b6;">
-                                    <i class="bi bi-building"></i>
-                                </div>
-                                <div class="hostel-item-info">
-                                    <div class="hostel-item-title">Girls Hostel B</div>
-                                    <div class="hostel-item-desc">Capacity: 80 students | Occupancy: 85%</div>
-                                </div>
-                                <span class="hostel-item-status status-completed">Good</span>
-                            </div>
-                            
-                            <div class="hostel-item">
-                                <div class="hostel-item-icon" style="background: rgba(255,193,7,0.1); color: #ffc107;">
-                                    <i class="bi bi-building"></i>
-                                </div>
-                                <div class="hostel-item-info">
-                                    <div class="hostel-item-title">Boys Hostel B</div>
-                                    <div class="hostel-item-desc">Capacity: 70 students | Occupancy: 65%</div>
-                                </div>
-                                <span class="hostel-item-status status-pending">Maintenance</span>
-                            </div>
-                            
-                            <div class="hostel-item">
-                                <div class="hostel-item-icon" style="background: rgba(23,162,184,0.1); color: #17a2b8;">
-                                    <i class="bi bi-building"></i>
-                                </div>
-                                <div class="hostel-item-info">
-                                    <div class="hostel-item-title">Girls Hostel A</div>
-                                    <div class="hostel-item-desc">Capacity: 70 students | Occupancy: 70%</div>
-                                </div>
-                                <span class="hostel-item-status status-in-progress">Renovating</span>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-primary w-full mt-3" onclick="openModal('addHostelModal')">
-                            <i class="bi bi-plus-circle"></i> Add New Hostel
-                        </button>
                     </div>
                 </div>
             </div>
@@ -800,6 +364,93 @@
                         </button>
                     </div>
                 </div>
+
+                     <!-- Maintenance Overview Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="bi bi-tools"></i> Maintenance Overview</h3>
+                    <p class="card-description">Status of maintenance requests and schedules</p>
+                </div>
+                <div class="card-body">
+                    <!-- <div class="content-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));"> -->
+                        <div class="alert-item">
+                            <div class="alert-dot alert-warning"></div>
+                            <div>
+                                <p class="alert-title">Pending Requests</p>
+                                <p class="alert-description">12 requests awaiting action</p>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-dot alert-info"></div>
+                            <div>
+                                <p class="alert-title">In Progress</p>
+                                <p class="alert-description">8 requests being addressed</p>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-dot alert-success"></div>
+                            <div>
+                                <p class="alert-title">Completed This Month</p>
+                                <p class="alert-description">24 requests resolved</p>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-dot alert-danger"></div>
+                            <div>
+                                <p class="alert-title">Urgent Requests</p>
+                                <p class="alert-description">3 requests requiring immediate attention</p>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                    <button class="btn btn-outline w-full" onclick="window.location.href='maintenance.html'">
+                        <i class="bi bi-eye"></i> View All Maintenance Requests
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hostel Management Overview Section -->
+            <div class="card" style="margin-top: 24px;">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="bi bi-house-door"></i> Hostel Management Overview</h3>
+                    <p class="card-description">Status of student accommodation facilities</p>
+                </div>
+                <div class="card-body">
+                    <!-- <div class="content-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));"> -->
+                        <div class="alert-item">
+                            <div class="alert-dot alert-success"></div>
+                            <div>
+                                <p class="alert-title">Total Hostels</p>
+                                <p class="alert-description">4 hostels with 320 rooms</p>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-dot alert-info"></div>
+                            <div>
+                                <p class="alert-title">Occupancy Rate</p>
+                                <p class="alert-description">78% of rooms currently occupied</p>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-dot alert-warning"></div>
+                            <div>
+                                <p class="alert-title">Maintenance Needed</p>
+                                <p class="alert-description">5 rooms require maintenance</p>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-dot alert-danger"></div>
+                            <div>
+                                <p class="alert-title">Vacancies</p>
+                                <p class="alert-description">72 rooms available for allocation</p>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                    <button class="btn btn-outline w-full" onclick="window.location.href='hostel.html'">
+                        <i class="bi bi-eye"></i> Manage Hostels
+                    </button>
+                </div>
+            </div>
+            
             </div>
         </div>
     </main>
@@ -820,20 +471,7 @@
             mobileMenuBtn.addEventListener('click', () => {
                 mainNavigation.classList.toggle('active');
             });
-            
-            // Initialize tooltips (if needed)
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
         });
-        
-        // Modal functions (for future implementation)
-        function openModal(modalId) {
-            console.log("Opening modal: " + modalId);
-            // In a real implementation, this would show the modal
-            alert("This would open the " + modalId + " in a complete implementation.");
-        }
     </script>
 </body>
 </html>
