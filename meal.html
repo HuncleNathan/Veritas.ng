@@ -3,12 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SchoolPass ERP - Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SchoolPass ERP - Meal Ticket System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>  
-    
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #0E4329;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --accent: #49c5b6;
+            --muted: #6b7280;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
       
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card-description {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .card-success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .card-warning {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .card-danger {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .card-accent {
+            border-left: 4px solid var(--accent);
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+        }
+        
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .badge-outline {
+            background-color: transparent;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+        }
+        
+        .btn-hero {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+        }
+        
+        .btn-hero:hover {
+            background-color: #0a2e1c;
+            color: white;
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--muted);
+            font-weight: 500;
+            border: none;
+            padding: 0.75rem 1rem;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            background-color: transparent;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+        
+        .form-control, .form-select {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+        }
+        
+        .table th {
+            font-weight: 600;
+            color: var(--muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .modal-content {
+            border-radius: 0.75rem;
+            border: none;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .balance-low {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .transaction-positive {
+            color: var(--success);
+        }
+        
+        .transaction-negative {
+            color: var(--danger);
+        }
+    </style>
 </head>
 <body>
     <!-- Top Header Navigation -->
@@ -17,21 +196,23 @@
             <h2 class="logo-text">SchoolPass ERP</h2>
         </div>
         <button class="mobile-menu-btn" aria-label="Toggle navigation">
-        <i class="bi bi-list"></i>
-           </button>
+            <i class="bi bi-list"></i>
+        </button>
            
-        <nav class="topbar-nav" id="mainNavigation"> <ul>
-                <li><a href="index.html" class="active"><i class="bi bi-house"></i> Overview</a></li>
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html"><i class="bi bi-house"></i> Overview</a></li>
                 <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
                 <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
                 <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
                 <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
                 <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
-                <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+                <li><a href="meal.html" class="active"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+                
             </ul>
-             </nav>
-            <div class="user-nav">
-                <div class="dropdown">
+        </nav>
+        <div class="user-nav">
+            <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="user-avatar">
                         <img src="/Veritas/Images/ig.png" alt="User">
@@ -41,121 +222,425 @@
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
                     <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
-                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                     <li><a class="dropdown-item" href="support.html"><i class="bi bi-headset mr-2"></i> Support</a></li>
                     <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell mr-2"></i> Notifications</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
                 </ul>
-                </div>
             </div>
-           
+        </div>
     </header>
 
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Hero Section -->
+    <!-- Main Content - Meal Ticket System -->
+    <main class="container-fluid py-4">
+        <!-- Header Section -->
         <div class="hero-section">
             <div class="hero-content">
-                <h2 class="hero-title">Meal Ticket System</h2>
-                <p class="hero-description">Manage student meal accounts and vendor services.</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary"><i class="bi bi-plus"></i> Top Up Account</button>
-                    <button class="btn btn-outline"><i class="bi bi-download"></i> Generate QR Codes</button>
+                <h2 class="hero-title"><i class="bi bi-ticket-perforated me-2"></i> Meal Ticket System</h2>
+                <p class="hero-description">Manage student meal accounts and vendor services</p>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-accent h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span class="card-title">Total Students</span>
+                        <div class="card-icon text-accent">
+                            <i class="bi bi-people"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">1,247</div>
+                        <p class="card-description">+12% from last month</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-success h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span class="card-title">Active Accounts</span>
+                        <div class="card-icon text-success">
+                            <i class="bi bi-wallet2"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">1,158</div>
+                        <p class="card-description">92.9% participation rate</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-warning h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span class="card-title">Daily Revenue</span>
+                        <div class="card-icon text-warning">
+                            <i class="bi bi-currency-dollar"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">$2,847</div>
+                        <p class="card-description">+8% from yesterday</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span class="card-title">Active Vendors</span>
+                        <div class="card-icon text-primary">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">5</div>
+                        <p class="card-description">2 external partners</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Content Grid -->
-        <div class="content-grid">
-            <!-- Student Meal Accounts -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-person"></i> Student Meal Accounts</h3>
-                    <p class="card-description">Manage meal account balances</p>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="parent-table">
-                            <thead>
-                                <tr>
-                                    <th>Student</th>
-                                    <th>Class</th>
-                                    <th>Balance</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>John Doe</td>
-                                    <td>SS1A</td>
-                                    <td>₦5,000</td>
-                                    <td>
-                                        <button class="btn btn-outline-small">Top Up</button>
-                                        <button class="btn btn-outline-small">History</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs mb-4" id="mealTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="accounts-tab" data-bs-toggle="tab" data-bs-target="#accounts" type="button" role="tab">Student Accounts</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="vendors-tab" data-bs-toggle="tab" data-bs-target="#vendors" type="button" role="tab">Vendors</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab">Transactions</button>
+            </li>
+        </ul>
+
+        <!-- Tabs Content -->
+        <div class="tab-content" id="mealTabsContent">
+            <!-- Accounts Tab -->
+            <div class="tab-pane fade show active" id="accounts" role="tabpanel">
+                <div class="card">
+                    <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div>
+                            <h3 class="card-title"><i class="bi bi-wallet2 me-2 text-primary"></i> Student Meal Accounts</h3>
+                            <p class="card-description">Manage student balances and account status</p>
+                        </div>
+                        <div class="d-flex gap-2 mt-3 mt-md-0">
+                            <div class="position-relative">
+                                <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                <input type="text" class="form-control ps-5" placeholder="Search students...">
+                            </div>
+                            <button class="btn btn-hero" data-bs-toggle="modal" data-bs-target="#topUpModal">
+                                <i class="bi bi-plus me-2"></i> Top Up Account
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Class</th>
+                                        <th>Balance</th>
+                                        <th>Status</th>
+                                        <th>Last Transaction</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-semibold">ST001</td>
+                                        <td>Alice Johnson</td>
+                                        <td>Grade 10A</td>
+                                        <td class="fw-semibold">$150.50</td>
+                                        <td><span class="badge badge-success">active</span></td>
+                                        <td class="text-muted">2024-01-15</td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-currency-dollar me-1"></i> Top Up
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-clock-history me-1"></i> History
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">ST002</td>
+                                        <td>Bob Smith</td>
+                                        <td>Grade 9B</td>
+                                        <td class="fw-semibold balance-low">$25.75</td>
+                                        <td><span class="badge badge-warning">low balance</span></td>
+                                        <td class="text-muted">2024-01-14</td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-currency-dollar me-1"></i> Top Up
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-clock-history me-1"></i> History
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">ST003</td>
+                                        <td>Carol Davis</td>
+                                        <td>Grade 11C</td>
+                                        <td class="fw-semibold balance-low">$0.00</td>
+                                        <td><span class="badge badge-danger">inactive</span></td>
+                                        <td class="text-muted">2024-01-10</td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-currency-dollar me-1"></i> Top Up
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-clock-history me-1"></i> History
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- QR Code Management -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-qr-code"></i> QR Code Management</h3>
-                    <p class="card-description">Generate and manage QR codes</p>
-                </div>
-                <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-download"></i> Download QR Code</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-printer"></i> Print QR Codes</button>
+            
+            <!-- Vendors Tab -->
+            <div class="tab-pane fade" id="vendors" role="tabpanel">
+                <div class="card">
+                    <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div>
+                            <h3 class="card-title"><i class="bi bi-shop me-2 text-primary"></i> Vendor Management</h3>
+                            <p class="card-description">Manage meal service providers and their settings</p>
+                        </div>
+                        <button class="btn btn-hero mt-3 mt-md-0" data-bs-toggle="modal" data-bs-target="#addVendorModal">
+                            <i class="bi bi-plus me-2"></i> Add Vendor
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Vendor ID</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Commission</th>
+                                        <th>Total Sales</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-semibold">V001</td>
+                                        <td>School Cafeteria</td>
+                                        <td><span class="badge badge-success">internal</span></td>
+                                        <td>0%</td>
+                                        <td class="fw-semibold">$2,450.00</td>
+                                        <td><span class="badge badge-success">active</span></td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-graph-up me-1"></i> Reports
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">V002</td>
+                                        <td>Healthy Bites Co.</td>
+                                        <td><span class="badge badge-outline">external</span></td>
+                                        <td>15%</td>
+                                        <td class="fw-semibold">$1,875.50</td>
+                                        <td><span class="badge badge-success">active</span></td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-graph-up me-1"></i> Reports
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">V003</td>
+                                        <td>Fresh Foods Ltd.</td>
+                                        <td><span class="badge badge-outline">external</span></td>
+                                        <td>12%</td>
+                                        <td class="fw-semibold">$980.25</td>
+                                        <td><span class="badge badge-warning">pending</span></td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-sm btn-outline-secondary">Edit</button>
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-graph-up me-1"></i> Reports
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Vendor Management -->
-            <div class="card card-wide">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-shop"></i> Vendor Management</h3>
-                    <p class="card-description">Manage catering vendors</p>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="parent-table">
-                            <thead>
-                                <tr>
-                                    <th>Vendor ID</th>
-                                    <th>Vendor Name</th>
-                                    <th>Last Sync</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>VEN001</td>
-                                    <td>ABC Catering</td>
-                                    <td>Today, 9:30 AM</td>
-                                    <td>Active</td>
-                                    <td>
-                                        <button class="btn btn-outline-small">Edit</button>
-                                        <button class="btn btn-outline-small">Deactivate</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+            
+            <!-- Transactions Tab -->
+            <div class="tab-pane fade" id="transactions" role="tabpanel">
+                <div class="card">
+                    <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                        <div>
+                            <h3 class="card-title"><i class="bi bi-clock-history me-2 text-primary"></i> Recent Transactions</h3>
+                            <p class="card-description">Track all meal purchases and account top-ups</p>
+                        </div>
+                        <div class="d-flex gap-2 mt-3 mt-md-0">
+                            <select class="form-select" style="width: auto;">
+                                <option selected>All Vendors</option>
+                                <option>School Cafeteria</option>
+                                <option>Healthy Bites Co.</option>
+                                <option>Fresh Foods Ltd.</option>
+                            </select>
+                            <button class="btn btn-outline-secondary">
+                                <i class="bi bi-download me-1"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction ID</th>
+                                        <th>Student</th>
+                                        <th>Vendor</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
+                                        <th>Date & Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-semibold">T001</td>
+                                        <td>Alice Johnson</td>
+                                        <td>School Cafeteria</td>
+                                        <td class="fw-semibold transaction-negative">-$12.50</td>
+                                        <td><span class="badge badge-danger">Purchase</span></td>
+                                        <td class="text-muted">2024-01-15 12:30</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">T002</td>
+                                        <td>Bob Smith</td>
+                                        <td>Healthy Bites Co.</td>
+                                        <td class="fw-semibold transaction-negative">-$8.75</td>
+                                        <td><span class="badge badge-danger">Purchase</span></td>
+                                        <td class="text-muted">2024-01-15 11:45</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-semibold">T003</td>
+                                        <td>Alice Johnson</td>
+                                        <td>Top-up</td>
+                                        <td class="fw-semibold transaction-positive">+$50.00</td>
+                                        <td><span class="badge badge-success">Top Up</span></td>
+                                        <td class="text-muted">2024-01-14 09:15</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <br> <br>
-      <!-- Footer -->
+    <br><br>
+
+    <!-- Top Up Modal -->
+    <div class="modal fade" id="topUpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Top Up Student Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="student-id" class="form-label">Student ID</label>
+                            <input type="text" class="form-control" id="student-id" placeholder="Enter student ID">
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" class="form-control" id="amount" placeholder="0.00">
+                        </div>
+                        <div class="mb-3">
+                            <label for="payment-method" class="form-label">Payment Method</label>
+                            <select class="form-select" id="payment-method">
+                                <option selected>Select payment method</option>
+                                <option value="cash">Cash</option>
+                                <option value="card">Card</option>
+                                <option value="bank_transfer">Bank Transfer</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-hero">Process Top Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Vendor Modal -->
+    <div class="modal fade" id="addVendorModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Vendor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="vendor-name" class="form-label">Vendor Name</label>
+                            <input type="text" class="form-control" id="vendor-name" placeholder="Enter vendor name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="vendor-type" class="form-label">Vendor Type</label>
+                            <select class="form-select" id="vendor-type">
+                                <option selected>Select vendor type</option>
+                                <option value="internal">Internal</option>
+                                <option value="external">External</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="commission" class="form-label">Commission Rate (%)</label>
+                            <input type="number" class="form-control" id="commission" placeholder="0">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-hero">Add Vendor</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-content">
             <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
