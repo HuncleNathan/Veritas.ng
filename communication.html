@@ -3,12 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SchoolPass ERP - Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>SchoolPass ERP - Communication & Collaboration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>  
-    
-      
+    <link rel="stylesheet" href="style.css">    
+    <style>
+        :root {
+            --primary: #0E4329;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --accent: #49c5b6;
+            --muted: #6b7280;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+       
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .card-description {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 0.375rem;
+        }
+        
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .badge-outline {
+            background-color: transparent;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+        }
+        
+        .btn-hero {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+        }
+        
+        .btn-hero:hover {
+            background-color: #0a2e1c;
+            color: white;
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--muted);
+            font-weight: 500;
+            border: none;
+            padding: 0.75rem 1rem;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            background-color: transparent;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+        
+        .form-control, .form-select {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+        }
+        
+        .table th {
+            font-weight: 600;
+            color: var(--muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .modal-content {
+            border-radius: 0.75rem;
+            border: none;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            background-color: white;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .conversation-item:hover, .conversation-item.active {
+            background-color: #f8fafc;
+            border-color: var(--primary);
+        }
+        
+        .conversation-item.unread {
+            background-color: #f0f9ff;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .chat-message {
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            max-width: 80%;
+        }
+        
+        .message-in {
+            background-color: #f1f5f9;
+            margin-right: auto;
+        }
+        
+        .message-out {
+            background-color: var(--primary);
+            color: white;
+            margin-left: auto;
+        }
+        
+        .announcement-card {
+            transition: all 0.2s;
+        }
+        
+        .announcement-card.pinned {
+            border-color: var(--primary);
+            box-shadow: 0 4px 6px -1px rgba(14, 67, 41, 0.1);
+        }
+        
+        .staff-card {
+            transition: all 0.2s;
+            height: 100%;
+        }
+        
+        .staff-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        .status-online {
+            background-color: var(--success);
+        }
+        
+        .status-busy {
+            background-color: var(--warning);
+        }
+        
+        .status-offline {
+            background-color: var(--muted);
+        }
+        
+        .meeting-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            background-color: white;
+            margin-bottom: 0.75rem;
+        }
+        
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+    </style>
 </head>
 <body>
     <!-- Top Header Navigation -->
@@ -17,21 +278,23 @@
             <h2 class="logo-text">SchoolPass ERP</h2>
         </div>
         <button class="mobile-menu-btn" aria-label="Toggle navigation">
-        <i class="bi bi-list"></i>
-           </button>
+            <i class="bi bi-list"></i>
+        </button>
            
-        <nav class="topbar-nav" id="mainNavigation"> <ul>
-                <li><a href="index.html" class="active"><i class="bi bi-house"></i> Overview</a></li>
+        <nav class="topbar-nav" id="mainNavigation">
+            <ul>
+                <li><a href="index.html"><i class="bi bi-house"></i> Overview</a></li>
                 <li><a href="administration.html"><i class="bi bi-gear"></i> Administration</a></li>
                 <li><a href="finance.html"><i class="bi bi-wallet2"></i> Finance</a></li>
                 <li><a href="personnel.html"><i class="bi bi-people"></i> Personnel</a></li>
                 <li><a href="asset-inventory.html"><i class="bi bi-box-seam"></i> Asset & Inventory</a></li>
-                <li><a href="communication.html"><i class="bi bi-chat-dots"></i> Communication</a></li>
+                <li><a href="communication.html" class="active"><i class="bi bi-chat-dots"></i> Communication</a></li>
                 <li><a href="meal.html"><i class="bi bi-ticket"></i> Meal Ticket</a></li>
+               
             </ul>
-             </nav>
-            <div class="user-nav">
-                <div class="dropdown">
+        </nav>
+        <div class="user-nav">
+            <div class="dropdown">
                 <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="user-avatar">
                         <img src="/Veritas/Images/ig.png" alt="User">
@@ -41,101 +304,448 @@
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person mr-2"></i> My Profile</a></li>
                     <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Settings</a></li>
-                    <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear mr-2"></i> Support</a></li>
+                     <li><a class="dropdown-item" href="support.html"><i class="bi bi-headset mr-2"></i>Support</a></li>
                     <li><a class="dropdown-item" href="notifications.html"><i class="bi bi-bell mr-2"></i> Notifications</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="logout.html"><i class="bi bi-box-arrow-right mr-2"></i> Logout</a></li>
                 </ul>
-                </div>
             </div>
-           
+        </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Hero Section -->
+    <!-- Main Content - Communication & Collaboration -->
+    <main class="container-fluid py-4">
+        <!-- Header Section -->
         <div class="hero-section">
             <div class="hero-content">
-                <h2 class="hero-title">Communication & Collaboration</h2>
-                <p class="hero-description">Manage announcements, messages, and parent engagement.</p>
-                <div class="hero-actions">
-                    <button class="btn btn-primary"><i class="bi bi-plus"></i> New Announcement</button>
-                </div>
+                <h2 class="hero-title"><i class="bi bi-chat-dots me-2"></i> Communication & Collaboration</h2>
+                <p class="hero-description">Stay connected with staff, students, and parents</p>
             </div>
         </div>
 
-        <!-- Content Grid -->
-        <div class="content-grid">
-            <!-- Announcements -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-megaphone"></i> Announcements</h3>
-                    <p class="card-description">Share school updates</p>
-                </div>
-                <div class="card-body">
-                    <div class="alert-item">
-                        <div class="alert-dot alert-info"></div>
-                        <div>
-                            <p class="alert-title">School Resumption Date</p>
-                            <p class="alert-description">School resumes on January 25th, 2025</p>
-                            <p class="alert-time">2 days ago</p>
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs mb-4" id="commTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button" role="tab">Messages</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="announcements-tab" data-bs-toggle="tab" data-bs-target="#announcements" type="button" role="tab">Announcements</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="directory-tab" data-bs-toggle="tab" data-bs-target="#directory" type="button" role="tab">Staff Directory</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="meetings-tab" data-bs-toggle="tab" data-bs-target="#meetings" type="button" role="tab">Meetings</button>
+            </li>
+        </ul>
+
+        <!-- Tabs Content -->
+        <div class="tab-content" id="commTabsContent">
+            <!-- Messages Tab -->
+            <div class="tab-pane fade show active" id="messages" role="tabpanel">
+                <div class="row g-4">
+                    <!-- Conversations List -->
+                    <div class="col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="bi bi-chat me-2 text-primary"></i> Conversations</h3>
+                                <div class="position-relative mt-2">
+                                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                                    <input type="text" class="form-control ps-5" placeholder="Search conversations...">
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    <div class="conversation-item unread active">
+                                        <div class="avatar">MD</div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Mathematics Department</h6>
+                                            <p class="mb-0 text-muted small">New curriculum guidelines uploaded</p>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge badge-danger">3</span>
+                                            <p class="small text-muted mb-0">2 min ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item">
+                                        <div class="avatar">JS</div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">John Smith (Parent)</h6>
+                                            <p class="mb-0 text-muted small">Thank you for the update about Sarah's progress</p>
+                                        </div>
+                                        <div class="text-end">
+                                            <p class="small text-muted mb-0">1 hour ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="conversation-item unread">
+                                        <div class="avatar">SL</div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">Science Lab Team</h6>
+                                            <p class="mb-0 text-muted small">Equipment maintenance completed</p>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge badge-danger">1</span>
+                                            <p class="small text-muted mb-0">3 hours ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <button class="btn btn-outline w-full"><i class="bi bi-plus"></i> New Announcement</button>
+                    
+                    <!-- Chat Area -->
+                    <div class="col-lg-8">
+                        <div class="card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-0">Mathematics Department</h5>
+                                    <p class="text-muted small mb-0">Group Chat • 5 participants</p>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="bi bi-telephone"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="bi bi-camera-video"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="chat-container">
+                                    <div class="d-flex mb-3">
+                                        <div class="avatar me-2" style="width: 32px; height: 32px; font-size: 0.8rem;">MB</div>
+                                        <div class="chat-message message-in">
+                                            <p class="mb-0">Hello! I wanted to discuss the upcoming parent-teacher meeting.</p>
+                                            <span class="text-muted small">10:30 AM</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mb-3 justify-content-end">
+                                        <div class="chat-message message-out">
+                                            <p class="mb-0">Of course! I'm available this afternoon. What time works best for you?</p>
+                                            <span class="text-white-50 small">10:32 AM</span>
+                                        </div>
+                                        <div class="avatar ms-2" style="width: 32px; height: 32px; font-size: 0.8rem;">A</div>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <div class="avatar me-2" style="width: 32px; height: 32px; font-size: 0.8rem;">MB</div>
+                                        <div class="chat-message message-in">
+                                            <p class="mb-0">How about 3 PM? I can share the agenda beforehand.</p>
+                                            <span class="text-muted small">10:33 AM</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 border-top">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Type your message...">
+                                        <button class="btn btn-hero">
+                                            <i class="bi bi-send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Messages -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-chat"></i> Messages</h3>
-                    <p class="card-description">Send messages to parents and staff</p>
+            
+            <!-- Announcements Tab -->
+            <div class="tab-pane fade" id="announcements" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h3 class="mb-1">School Announcements</h3>
+                        <p class="text-muted mb-0">Important updates and notices</p>
+                    </div>
+                    <button class="btn btn-hero" data-bs-toggle="modal" data-bs-target="#newAnnouncementModal">
+                        <i class="bi bi-plus me-2"></i> New Announcement
+                    </button>
                 </div>
-                <div class="card-body">
-                    <button class="btn btn-outline w-full"><i class="bi bi-send"></i> Send to All Parents</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-ticket"></i></button> Send to Specific Class</button>
-                    <button class="btn btn-outline w-full"><i class="bi bi-person"></i></i> Send to Teachers</button>
+
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="card announcement-card pinned">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-pin-angle-fill text-primary me-2"></i>
+                                    <h5 class="mb-0">Parent-Teacher Meeting Scheduled</h5>
+                                    <span class="badge badge-danger ms-3">High Priority</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="text-muted me-3"><i class="bi bi-eye me-1"></i> 156</span>
+                                    <span class="text-muted small">Mar 10, 2024</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0">Annual parent-teacher meetings will be held from March 15-20, 2024. Please check the schedule and confirm your availability. Meetings will be held in the respective classrooms.</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <span class="text-muted small">By Principal Johnson</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card announcement-card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">New Library Books Available</h5>
+                                <span class="text-muted small">Mar 8, 2024</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0">We've added 200 new books to our library collection. Students can now borrow them during library hours. The new collection includes fiction, non-fiction, and reference materials.</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <span class="text-muted small">By Librarian Smith</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card announcement-card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <h5 class="mb-0">Sports Day Event</h5>
+                                    <span class="badge badge-warning ms-3">Medium Priority</span>
+                                </div>
+                                <span class="text-muted small">Mar 5, 2024</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0">Annual sports day will be celebrated on March 25, 2024. All students must participate. Please ensure you have submitted your consent forms by March 18.</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <span class="text-muted small">By Sports Coordinator</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Parent Portal Activity -->
-            <div class="card card-wide">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-person-circle"></i> Parent Portal Activity</h3>
-                    <p class="card-description">Monitor parent engagement</p>
+            
+            <!-- Directory Tab -->
+            <div class="tab-pane fade" id="directory" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h3 class="mb-1">Staff Directory</h3>
+                        <p class="text-muted mb-0">Contact information for all staff members</p>
+                    </div>
+                    <div class="position-relative" style="width: 300px;">
+                        <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+                        <input type="text" class="form-control ps-5" placeholder="Search staff...">
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="parent-table">
-                            <thead>
-                                <tr>
-                                    <th>Parent</th>
-                                    <th>Last Login</th>
-                                    <th>Messages Read</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Mr. Toyosi</td>
-                                    <td>Today, 10:45 AM</td>
-                                    <td>3/5</td>
-                                    <td><button class="btn btn-outline-small">View</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card staff-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar me-3">EJ</div>
+                                    <div>
+                                        <h5 class="mb-0">Dr. Emily Johnson</h5>
+                                        <p class="text-muted mb-0">Principal</p>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <p class="mb-1"><strong>Department:</strong> Administration</p>
+                                    <p class="mb-1"><i class="bi bi-envelope me-2"></i> emily.johnson@school.edu</p>
+                                    <p class="mb-0"><i class="bi bi-telephone me-2"></i> +234-801-234-5678</p>
+                                </div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <span class="status-indicator status-online"></span>
+                                    <span class="text-muted small">Online</span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-chat me-2"></i> Message
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card staff-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar me-3">MB</div>
+                                    <div>
+                                        <h5 class="mb-0">Prof. Michael Brown</h5>
+                                        <p class="text-muted mb-0">Head of Mathematics</p>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <p class="mb-1"><strong>Department:</strong> Mathematics</p>
+                                    <p class="mb-1"><i class="bi bi-envelope me-2"></i> michael.brown@school.edu</p>
+                                    <p class="mb-0"><i class="bi bi-telephone me-2"></i> +234-802-234-5678</p>
+                                </div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <span class="status-indicator status-busy"></span>
+                                    <span class="text-muted small">Busy</span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-chat me-2"></i> Message
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card staff-card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar me-3">SD</div>
+                                    <div>
+                                        <h5 class="mb-0">Mrs. Sarah Davis</h5>
+                                        <p class="text-muted mb-0">English Teacher</p>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <p class="mb-1"><strong>Department:</strong> Languages</p>
+                                    <p class="mb-1"><i class="bi bi-envelope me-2"></i> sarah.davis@school.edu</p>
+                                    <p class="mb-0"><i class="bi bi-telephone me-2"></i> +234-803-234-5678</p>
+                                </div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <span class="status-indicator status-offline"></span>
+                                    <span class="text-muted small">Offline</span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary">
+                                        <i class="bi bi-chat me-2"></i> Message
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Meetings Tab -->
+            <div class="tab-pane fade" id="meetings" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h3 class="mb-1">Meetings & Events</h3>
+                        <p class="text-muted mb-0">Schedule and manage meetings with staff and parents</p>
+                    </div>
+                    <button class="btn btn-hero">
+                        <i class="bi bi-plus me-2"></i> Schedule Meeting
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0"><i class="bi bi-calendar-event me-2 text-primary"></i> Upcoming Meetings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="meeting-item">
+                            <div class="d-flex align-items-center me-4">
+                                <div class="text-center bg-light p-2 rounded me-3">
+                                    <div class="fw-bold text-primary">15</div>
+                                    <div class="text-muted small">MAR</div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Parent-Teacher Conference</h6>
+                                    <p class="text-muted mb-0">Mathematics Department • 2:00 PM - 4:00 PM</p>
+                                    <div class="d-flex align-items-center mt-1">
+                                        <i class="bi bi-people text-muted me-1"></i>
+                                        <span class="text-muted small">12 participants</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-auto d-flex gap-2">
+                                <button class="btn btn-outline-primary">
+                                    <i class="bi bi-camera-video me-2"></i> Join
+                                </button>
+                                <button class="btn btn-outline-secondary">Details</button>
+                            </div>
+                        </div>
+
+                        <div class="meeting-item">
+                            <div class="d-flex align-items-center me-4">
+                                <div class="text-center bg-light p-2 rounded me-3">
+                                    <div class="fw-bold text-primary">18</div>
+                                    <div class="text-muted small">MAR</div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Staff Weekly Meeting</h6>
+                                    <p class="text-muted mb-0">All Departments • 10:00 AM - 11:00 AM</p>
+                                    <div class="d-flex align-items-center mt-1">
+                                        <i class="bi bi-people text-muted me-1"></i>
+                                        <span class="text-muted small">25 participants</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ms-auto d-flex gap-2">
+                                <button class="btn btn-outline-primary">
+                                    <i class="bi bi-camera-video me-2"></i> Join
+                                </button>
+                                <button class="btn btn-outline-secondary">Details</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <br> <br>
-      <!-- Footer -->
+    <br><br>
+
+    <!-- New Announcement Modal -->
+    <div class="modal fade" id="newAnnouncementModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Announcement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="announcementTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="announcementTitle" placeholder="Enter announcement title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="announcementContent" class="form-label">Content</label>
+                            <textarea class="form-control" id="announcementContent" rows="4" placeholder="Enter announcement content"></textarea>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="announcementPriority" class="form-label">Priority</label>
+                                <select class="form-select" id="announcementPriority">
+                                    <option selected>Select priority</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="announcementTarget" class="form-label">Target Audience</label>
+                                <select class="form-select" id="announcementTarget">
+                                    <option selected>Select audience</option>
+                                    <option value="all">All</option>
+                                    <option value="staff">Staff Only</option>
+                                    <option value="students">Students Only</option>
+                                    <option value="parents">Parents Only</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-hero">
+                        <i class="bi bi-megaphone me-2"></i> Publish Announcement
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-content">
             <p>Powered by <a href="https://veritas.com" target="_blank" class="veritas-link">Veritas</a></p>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
